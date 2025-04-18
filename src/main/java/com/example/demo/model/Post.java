@@ -17,6 +17,18 @@ public class Post {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "like_id", nullable = false)
+    private Like like;
+
+    public Like getLike() {
+        return like;
+    }
+
+    public void setLike(Like like) {
+        this.like = like;
+    }
+
     public Post(String title, String author, String content) {
         this.title = title;
         this.author = author;

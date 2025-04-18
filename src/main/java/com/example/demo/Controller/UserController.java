@@ -1,5 +1,6 @@
 package com.example.demo.Controller;
 
+import com.example.demo.Repository.UserRepository;
 import com.example.demo.model.Post;
 import com.example.demo.Repository.PostRepository;
 import com.example.demo.Service.PostService;
@@ -30,13 +31,15 @@ public class UserController {
     private final AuthenticationManager authenticationManager;
     private final PostRepository postRepository;
     private final PostService postService;
+    private final UserRepository userRepository;
 
     @Autowired
-    public UserController(UserService userService, AuthenticationManager authenticationManager, PostService postService, PostRepository postRepository, PostService postService1) {
+    public UserController(UserService userService, AuthenticationManager authenticationManager, PostService postService, PostRepository postRepository, PostService postService1, UserRepository userRepository) {
         this.userService = userService;
         this.authenticationManager = authenticationManager;
         this.postRepository = postRepository;
         this.postService = postService1;
+        this.userRepository = userRepository;
     }
 
     @PostMapping("/register")
@@ -118,5 +121,25 @@ public class UserController {
         User user = userService.findByEmail(authentication.getName()).get();
         return user;
     }
+
+    @PostMapping("/likePost")
+    public ResponseEntity<Map<String, String>> likePost(@RequestBody int post_id, HttpServletRequest request) {
+        Map<String, String> response = new HashMap<>();
+        try{
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            if (authentication == null || !authentication.isAuthenticated() || authentication.getPrincipal().equals("anonymousUser")) {
+                response.put("message", "You are not logged in");
+            }
+
+            User user = userService.findByEmail(authentication.getName()).get();
+
+
+        }catch(Exception e){
+
+        }
+
+    }
+
+
 
 }

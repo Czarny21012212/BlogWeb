@@ -15,8 +15,13 @@ public class User {
     private String email;
     private String password;
 
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Post> posts = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<LikedPost> likedPosts = new ArrayList<>();
+
 
     public User(String email, String password){
         this.email = email;
