@@ -15,12 +15,10 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -92,12 +90,26 @@ public class UserController {
             User user = userService.findByEmail(email).get();
             post.setUser(user);
             postService.save(post);
+            System.out.println(post.getId());;
             return ResponseEntity.ok(response);
         }catch(Exception e){
             response.put("message", "error: " + e.getMessage());
             ResponseEntity.badRequest().body(response);
         }
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/all-post")
+    public List<Post> allPost() {
+        return postRepository.findAll();
+    }
+
+    @GetMapping("my-post")
+    public List<Post> allPost(HttpServletRequest request) {
+        HttpSession session = request.getSession(true);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findByEmail(authentication.getName()).get();
+        return postService.findMyPost(user.getId());
     }
 
 }
