@@ -28,6 +28,10 @@ public class User {
         this.password = password;
     }
 
+    public List<Post> getPosts(){
+        return posts;
+    }
+
     public void setEmail(String email){
         this.email = email;
     }

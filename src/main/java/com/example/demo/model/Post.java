@@ -1,6 +1,5 @@
 package com.example.demo.model;
 
-import com.example.demo.model.User;
 import jakarta.persistence.*;
 
 @Entity
@@ -21,8 +20,8 @@ public class Post {
     @JoinColumn(name = "like_id", nullable = false)
     private Like like;
 
-    public Like getLike() {
-        return like;
+    public Like getLike(Like like) {
+        return this.like;
     }
 
     public void setLike(Like like) {
