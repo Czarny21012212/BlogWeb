@@ -105,11 +105,18 @@ public class UserController {
     }
 
     @GetMapping("my-post")
-    public List<Post> allPost(HttpServletRequest request) {
+    public List<Post> myPost(HttpServletRequest request) {
         HttpSession session = request.getSession(true);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findByEmail(authentication.getName()).get();
         return postService.findMyPost(user.getId());
+    }
+
+    @GetMapping("/my-data")
+    public User myData(HttpServletRequest request) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findByEmail(authentication.getName()).get();
+        return user;
     }
 
 }
