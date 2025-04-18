@@ -1,6 +1,9 @@
 package com.example.demo.Controller;
 
+import com.example.demo.Repository.LikedPostRepository;
 import com.example.demo.Repository.UserRepository;
+import com.example.demo.Service.LikedPostService;
+import com.example.demo.model.LikedPost;
 import com.example.demo.model.Post;
 import com.example.demo.Repository.PostRepository;
 import com.example.demo.Service.PostService;
@@ -32,14 +35,16 @@ public class UserController {
     private final PostRepository postRepository;
     private final PostService postService;
     private final UserRepository userRepository;
+    private final LikedPostService likedPostService;
 
     @Autowired
-    public UserController(UserService userService, AuthenticationManager authenticationManager, PostService postService, PostRepository postRepository, PostService postService1, UserRepository userRepository) {
+    public UserController(UserService userService, AuthenticationManager authenticationManager, PostService postService, PostRepository postRepository, PostService postService1, UserRepository userRepository, LikedPostService likedPostService) {
         this.userService = userService;
         this.authenticationManager = authenticationManager;
         this.postRepository = postRepository;
         this.postService = postService1;
         this.userRepository = userRepository;
+        this.likedPostService = likedPostService;
     }
 
     @PostMapping("/register")
@@ -123,21 +128,22 @@ public class UserController {
     }
 
     @PostMapping("/likePost")
-    public ResponseEntity<Map<String, String>> likePost(@RequestBody int post_id, HttpServletRequest request) {
+    public ResponseEntity<Map<String, String>> likePost(@RequestBody LikedPost likedPost, HttpServletRequest request) {
         Map<String, String> response = new HashMap<>();
         try{
+            HttpSession session = request.getSession(true);
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             if (authentication == null || !authentication.isAuthenticated() || authentication.getPrincipal().equals("anonymousUser")) {
                 response.put("message", "You are not logged in");
             }
 
             User user = userService.findByEmail(authentication.getName()).get();
-
+            likedPostService.save(likedPost);
 
         }catch(Exception e){
 
         }
-
+    return ResponseEntity.ok(response);
     }
 
 

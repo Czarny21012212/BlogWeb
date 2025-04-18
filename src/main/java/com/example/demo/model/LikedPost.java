@@ -9,15 +9,14 @@ public class LikedPost {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private int likedPostId;
+    private Long likedPostId;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
-    public LikedPost(int likedPostId, User user) {
+    public LikedPost(Long likedPostId) {
         this.likedPostId = likedPostId;
-        this.user = user;
     }
 
     public Long getId() {
@@ -27,10 +26,10 @@ public class LikedPost {
         this.id = id;
     }
 
-    public int getLikedPostId() {
+    public Long getLikedPostId() {
         return likedPostId;
     }
-    public void setLikedPostId(int likedPostId) {
+    public void setLikedPostId(Long likedPostId) {
         this.likedPostId = likedPostId;
     }
 
