@@ -136,31 +136,28 @@ public class UserController {
     }
 
     @PostMapping("/likePost")
-    public ResponseEntity<Map<String, String>> likePost(@RequestBody LikedPost likedPost, HttpServletRequest request) {
-        Map<String, String> response = new HashMap<>();
-        try{
+    public ResponseEntity<Map<String, List>> likePost(@RequestBody LikedPost likedPost, HttpServletRequest request) {
+        Map<String, List> response = new HashMap<>();
+
             HttpSession session = request.getSession(true);
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             if (authentication == null || !authentication.isAuthenticated() || authentication.getPrincipal().equals("anonymousUser")) {
                 return null;
             }
-            System.out.println("Hello");
+
             User user = userService.findByEmail(authentication.getName()).get();
-            Post post2 = (Post) user.getPosts();
-            Optional<LikedPost> post = likedPostRepository.findLikedPostByUserAndPost(user.getId(), post2.getId());
+            Long likedPostId = likedPost.getLikedPostId();
+            List<LikedPost> post = likedPostService.findByUserAndLikedPostId(user, likedPostId);
 
             if(post.isEmpty()){
                 likedPost.setUser(user);
                 likedPostService.save(likedPost);
-                response.put("message", "success");
+                response.put("message", post);
             }else{
-                response.put("message", "już masz like");
+                response.put("message", post);
             }
+            return ResponseEntity.ok(response);
 
-        }catch(Exception e){
-           return ResponseEntity.badRequest().body(response);
-        }
-        return ResponseEntity.ok(response);
     }
 
 
