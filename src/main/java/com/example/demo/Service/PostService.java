@@ -6,6 +6,7 @@ import com.example.demo.model.User;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PostService {
@@ -22,4 +23,9 @@ public class PostService {
     public List<Post> findMyPost(Long userId) {
         return postRepository.findAllByUserId(userId);
     }
+
+    public Optional<Post> findById(Long id) {
+        return postRepository.findById(id);
+    }
+
 }

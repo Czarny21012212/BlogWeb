@@ -20,7 +20,7 @@ public class Post {
     @JoinColumn(name = "like_id", nullable = false)
     private Like like;
 
-    public Like getLike(Like like) {
+    public Like getLike() {
         return this.like;
     }
 

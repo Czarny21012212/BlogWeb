@@ -32,6 +32,10 @@ public class User {
         return posts;
     }
 
+    public List<LikedPost> getLikedPosts(Long likedPostId){
+        return likedPosts;
+    }
+
     public void setEmail(String email){
         this.email = email;
     }

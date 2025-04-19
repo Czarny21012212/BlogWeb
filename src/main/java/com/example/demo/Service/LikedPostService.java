@@ -12,7 +12,7 @@ import java.util.Optional;
 public class LikedPostService {
     private final LikedPostRepository likedPostRepository;
 
-    public List<LikedPost> findByUserAndLikedPostId(User user, Long likedPost) {
+    public Optional<LikedPost> findByUserAndLikedPostId(User user, Long likedPost) {
         System.out.println("Liked Post " + likedPost);
         System.out.println("User " + user.getId());
         return likedPostRepository.findByUserAndLikedPostId(user, likedPost);

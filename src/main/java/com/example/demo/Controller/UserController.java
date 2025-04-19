@@ -136,8 +136,8 @@ public class UserController {
     }
 
     @PostMapping("/likePost")
-    public ResponseEntity<Map<String, List>> likePost(@RequestBody LikedPost likedPost, HttpServletRequest request) {
-        Map<String, List> response = new HashMap<>();
+    public ResponseEntity<Map<String, String>> likePost(@RequestBody LikedPost likedPost, HttpServletRequest request) {
+        Map<String, String> response = new HashMap<>();
 
             HttpSession session = request.getSession(true);
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -147,14 +147,18 @@ public class UserController {
 
             User user = userService.findByEmail(authentication.getName()).get();
             Long likedPostId = likedPost.getLikedPostId();
-            List<LikedPost> post = likedPostService.findByUserAndLikedPostId(user, likedPostId);
+            Optional<LikedPost> post = likedPostService.findByUserAndLikedPostId(user, likedPostId);
 
             if(post.isEmpty()){
                 likedPost.setUser(user);
                 likedPostService.save(likedPost);
-                response.put("message", post);
+                Post post1 = postService.findById(likedPostId)
+                        .orElseThrow(() -> new RuntimeException("Post not found"));
+                Like like = post1.getLike();
+                like.setLikes(like.getLikes() + 1);
+                response.put("message", "succes");
             }else{
-                response.put("message", post);
+                response.put("message", "something went wrong");
             }
             return ResponseEntity.ok(response);
 
