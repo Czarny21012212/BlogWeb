@@ -1,5 +1,6 @@
 package com.example.demo.Controller;
 
+import com.example.demo.Repository.LikeRepository;
 import com.example.demo.Repository.LikedPostRepository;
 import com.example.demo.Repository.UserRepository;
 import com.example.demo.Service.LikeService;
@@ -139,7 +140,6 @@ public class UserController {
     public ResponseEntity<Map<String, String>> likePost(@RequestBody LikedPost likedPost, HttpServletRequest request) {
         Map<String, String> response = new HashMap<>();
 
-            HttpSession session = request.getSession(true);
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             if (authentication == null || !authentication.isAuthenticated() || authentication.getPrincipal().equals("anonymousUser")) {
                 return null;
@@ -155,11 +155,14 @@ public class UserController {
                 Post post1 = postService.findById(likedPostId)
                         .orElseThrow(() -> new RuntimeException("Post not found"));
                 Like like = post1.getLike();
+                System.out.println(like.getId());
                 like.setLikes(like.getLikes() + 1);
+                likeService.save(like.getLikes());
                 response.put("message", "succes");
             }else{
                 response.put("message", "something went wrong");
             }
+
             return ResponseEntity.ok(response);
 
     }
