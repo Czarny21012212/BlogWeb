@@ -1,6 +1,7 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
+import org.springframework.context.annotation.Profile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +22,9 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     private List<LikedPost> likedPosts = new ArrayList<>();
+
+    @OneToOne(mappedBy = "user")
+    private Profile profile;
 
 
     public User(String email, String password){
