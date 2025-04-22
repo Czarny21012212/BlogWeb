@@ -16,7 +16,7 @@ public class Profile {
     @JoinColumn(name = "profilStatistics_id", nullable = false)
     private ProfileStatistics statistics;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 

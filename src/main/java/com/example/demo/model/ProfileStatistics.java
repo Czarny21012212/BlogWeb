@@ -14,7 +14,7 @@ public class ProfileStatistics {
     private int countOfPosts;
 
     @OneToOne(mappedBy = "statistics")
-    private Profile profil;
+    private Profile profile;
 
     public ProfileStatistics(int followers, int countOfLikes, int countOfPosts) {
         this.followers = followers;

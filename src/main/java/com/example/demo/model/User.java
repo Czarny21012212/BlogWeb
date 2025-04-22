@@ -1,7 +1,6 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
-import org.springframework.context.annotation.Profile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +37,13 @@ public class User {
 
     public List<LikedPost> getLikedPosts(Long likedPostId){
         return likedPosts;
+    }
+
+    public Profile getProfile(){
+        return profile;
+    }
+    public void setProfile(Profile profile){
+        this.profile = profile;
     }
 
     public void setEmail(String email){
