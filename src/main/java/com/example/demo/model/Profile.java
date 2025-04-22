@@ -12,8 +12,7 @@ public class Profile {
     private String userName;
     private String biography;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "profilStatistics_id", nullable = false)
+    @OneToOne(mappedBy = "profile")
     private ProfileStatistics statistics;
 
     @OneToOne(cascade = CascadeType.ALL)
@@ -24,6 +23,13 @@ public class Profile {
     public Profile(String userName, String biography) {
         this.userName = userName;
         this.biography = biography;
+    }
+
+    public User getUser() {
+        return user;
+    }
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public ProfileStatistics getStatistics() {
