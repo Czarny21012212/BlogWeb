@@ -55,6 +55,35 @@ public class ProfileController {
 
     }
 
+    @PostMapping("/followUser")
+    public ResponseEntity<Map<String, String>> followUser(@RequestBody String userFollowEmail) {
+        Map<String, String> response = new HashMap<>();
+
+        try{
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String email = authentication.getName();
+            Optional<User> user = userService.findByEmail(email);
+
+            Optional<User> userFollow = userService.findByEmail(userFollowEmail);
+
+            if(userFollow.isEmpty()){
+                response.put("message", "Can not follow user");
+            }
+
+            Profile followProfile = userFollow.get().getProfile();
+
+            ProfileStatistics profileStatistics = followProfile.getStatistics();
+            profileStatistics.setFollowers(profileStatistics.getFollowers() + 1);
+            profileStatisticsService.save(profileStatistics);
+
+            response.put("message", "success");
+        }catch(Exception e){
+            response.put("message", "error: " + e.getMessage());
+        }
+        return ResponseEntity.ok(response);
+
+    }
+
 
 
 }
