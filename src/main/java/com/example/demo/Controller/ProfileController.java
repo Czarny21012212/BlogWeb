@@ -56,7 +56,7 @@ public class ProfileController {
     }
 
     @PostMapping("/followUser")
-    public ResponseEntity<Map<String, String>> followUser(@RequestBody String userFollowEmail) {
+    public ResponseEntity<Map<String, String>> followUser(@RequestBody  Map<String, String> userFollowEmail) {
         Map<String, String> response = new HashMap<>();
 
         try{
@@ -64,7 +64,7 @@ public class ProfileController {
             String email = authentication.getName();
             Optional<User> user = userService.findByEmail(email);
 
-            Optional<User> userFollow = userService.findByEmail(userFollowEmail);
+            Optional<User> userFollow = userService.findByEmail(userFollowEmail.get("email"));
 
             if(userFollow.isEmpty()){
                 response.put("message", "Can not follow user");
