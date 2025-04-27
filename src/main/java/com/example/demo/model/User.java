@@ -22,6 +22,9 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<LikedPost> likedPosts = new ArrayList<>();
 
+    @OneToMany(mappedBy = "user")
+    private List<FollowingUser> followingUsers = new ArrayList<>();
+
     @OneToOne(mappedBy = "user")
     private Profile profile;
 
@@ -38,6 +41,8 @@ public class User {
     public List<LikedPost> getLikedPosts(Long likedPostId){
         return likedPosts;
     }
+
+    public List<FollowingUser> getFollowingUsers(){return followingUsers;}
 
     public Profile getProfile(){
         return profile;
