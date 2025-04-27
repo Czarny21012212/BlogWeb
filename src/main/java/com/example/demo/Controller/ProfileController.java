@@ -1,9 +1,11 @@
 package com.example.demo.Controller;
 
 import com.example.demo.Repository.UserRepository;
+import com.example.demo.Service.FollowingUserService;
 import com.example.demo.Service.ProfileService;
 import com.example.demo.Service.ProfileStatisticsService;
 import com.example.demo.Service.UserService;
+import com.example.demo.model.FollowingUser;
 import com.example.demo.model.Profile;
 import com.example.demo.model.ProfileStatistics;
 import com.example.demo.model.User;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -27,12 +30,14 @@ public class ProfileController {
     private final ProfileService profileService;
     private final UserService userService;
     private final ProfileStatisticsService profileStatisticsService;
+    private final FollowingUserService followingUserService;
 
     @Autowired
-    public ProfileController(ProfileService profileService, UserService userService, ProfileStatisticsService profileStatisticsService) {
+    public ProfileController(ProfileService profileService, UserService userService, ProfileStatisticsService profileStatisticsService, FollowingUserService followingUserService) {
         this.profileService = profileService;
         this.userService = userService;
         this.profileStatisticsService = profileStatisticsService;
+        this.followingUserService = followingUserService;
     }
 
     @PostMapping("/createProfile")
@@ -63,20 +68,30 @@ public class ProfileController {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             String email = authentication.getName();
             Optional<User> user = userService.findByEmail(email);
-
-            Optional<User> userFollow = userService.findByEmail(userFollowEmail.get("email"));
-
-            if(userFollow.isEmpty()){
-                response.put("message", "Can not follow user");
+            if(user.isPresent()){
+                List<FollowingUser> followingUser = followingUserService.findByFollowingUserEmail(userFollowEmail.get("email"));
+                if(followingUser.isEmpty()){
+                    response.put("message", "You already followed " + userFollowEmail.get("email"));
+                }else{
+                    user.get().getFollowingUsers().add(followingUser.get(0));
+                }
             }
 
-            Profile followProfile = userFollow.get().getProfile();
 
-            ProfileStatistics profileStatistics = followProfile.getStatistics();
-            profileStatistics.setFollowers(profileStatistics.getFollowers() + 1);
-            profileStatisticsService.save(profileStatistics);
-
-            response.put("message", "success");
+//
+//            Optional<User> userFollow = userService.findByEmail(userFollowEmail.get("email"));
+//
+//            if(userFollow.isEmpty()){
+//                response.put("message", "Can not follow user");
+//            }
+//
+//            Profile followProfile = userFollow.get().getProfile();
+//
+//            ProfileStatistics profileStatistics = followProfile.getStatistics();
+//            profileStatistics.setFollowers(profileStatistics.getFollowers() + 1);
+//            profileStatisticsService.save(profileStatistics);
+//
+//            response.put("message", "success");
         }catch(Exception e){
             response.put("message", "error: " + e.getMessage());
         }

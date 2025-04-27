@@ -4,14 +4,21 @@ import jakarta.persistence.*;
 
 @Entity
 public class FollowingUser {
+    public FollowingUser() {}
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    private String FollowingUserEmail;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    public FollowingUser(String followingUserEmail, User user) {
+        this.FollowingUserEmail = followingUserEmail;
+        this.user = user;
+    }
 
     public Long getId() {
         return id;
