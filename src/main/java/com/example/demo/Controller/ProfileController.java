@@ -78,18 +78,20 @@ public class ProfileController {
                 }
             }
 
-
+            if(!followingUserService.findByFollowingUserEmail(userFollowEmail.get("email")).isEmpty()){
+                response.put("message", "Can not follow user");
+                return ResponseEntity.ok(response);
+            }
 
             Optional<User> userFollow = userService.findByEmail(userFollowEmail.get("email"));
 
             if(userFollow.isEmpty()){
                 response.put("message", "Can not follow user");
+                return ResponseEntity.ok(response);
             }
 
             Profile followProfile = userFollow.get().getProfile();
 
-            FollowingUser followingUser = (FollowingUser) user.get().getFollowingUsers();
-            followingUser.setUser(user.get());
             followingUserService.save(userFollowEmail.get("email"), user.get());
             ProfileStatistics profileStatistics = followProfile.getStatistics();
             profileStatistics.setFollowers(profileStatistics.getFollowers() + 1);
