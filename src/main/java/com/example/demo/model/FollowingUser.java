@@ -9,14 +9,14 @@ public class FollowingUser {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String FollowingUserEmail;
+    private String followingUserEmail;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
     public FollowingUser(String followingUserEmail, User user) {
-        this.FollowingUserEmail = followingUserEmail;
+        this.followingUserEmail = followingUserEmail;
         this.user = user;
     }
 

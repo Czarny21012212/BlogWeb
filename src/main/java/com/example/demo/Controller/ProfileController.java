@@ -68,30 +68,34 @@ public class ProfileController {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             String email = authentication.getName();
             Optional<User> user = userService.findByEmail(email);
+
             if(user.isPresent()){
                 List<FollowingUser> followingUser = followingUserService.findByFollowingUserEmail(userFollowEmail.get("email"));
-                if(followingUser.isEmpty()){
-                    response.put("message", "You already followed " + userFollowEmail.get("email"));
-                }else{
-                    user.get().getFollowingUsers().add(followingUser.get(0));
+                System.out.println("followingUser = " + followingUser);
+                if(!followingUser.isEmpty()){
+                    response.put("message", "Can not follow user");
+                    return ResponseEntity.ok(response);
                 }
             }
 
 
-//
-//            Optional<User> userFollow = userService.findByEmail(userFollowEmail.get("email"));
-//
-//            if(userFollow.isEmpty()){
-//                response.put("message", "Can not follow user");
-//            }
-//
-//            Profile followProfile = userFollow.get().getProfile();
-//
-//            ProfileStatistics profileStatistics = followProfile.getStatistics();
-//            profileStatistics.setFollowers(profileStatistics.getFollowers() + 1);
-//            profileStatisticsService.save(profileStatistics);
-//
-//            response.put("message", "success");
+
+            Optional<User> userFollow = userService.findByEmail(userFollowEmail.get("email"));
+
+            if(userFollow.isEmpty()){
+                response.put("message", "Can not follow user");
+            }
+
+            Profile followProfile = userFollow.get().getProfile();
+
+            FollowingUser followingUser = (FollowingUser) user.get().getFollowingUsers();
+            followingUser.setUser(user.get());
+            followingUserService.save(userFollowEmail.get("email"), user.get());
+            ProfileStatistics profileStatistics = followProfile.getStatistics();
+            profileStatistics.setFollowers(profileStatistics.getFollowers() + 1);
+            profileStatisticsService.save(profileStatistics);
+
+            response.put("message", "success");
         }catch(Exception e){
             response.put("message", "error: " + e.getMessage());
         }

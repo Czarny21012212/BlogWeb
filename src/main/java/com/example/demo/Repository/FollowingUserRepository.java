@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface FollowingUserRepository extends JpaRepository<FollowingUser, Long> {
-    List<FollowingUser> findByFollowingUserEmail(String FollowingUserEmail);
+    List<FollowingUser> findByFollowingUserEmail(String followingUserEmail);
 }

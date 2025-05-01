@@ -2,6 +2,7 @@ package com.example.demo.Service;
 
 import com.example.demo.Repository.FollowingUserRepository;
 import com.example.demo.model.FollowingUser;
+import com.example.demo.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +21,8 @@ public class FollowingUserService {
         return followingUserRepository.findByFollowingUserEmail(FollowingUserEmail);
     }
 
-    public void save(FollowingUser followingUser) {
+    public void save(String followingUserEmail, User user) {
+        FollowingUser followingUser = new FollowingUser(followingUserEmail, user);
         followingUserRepository.save(followingUser);
     }
 
