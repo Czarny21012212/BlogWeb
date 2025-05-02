@@ -103,10 +103,11 @@ public class UserController {
             }
             String email = authentication.getName();
             User user = userService.findByEmail(email).get();
+            post.setUser(user);
             postService.save(post);
-            Like like = new Like();
+            Like like = new Like(0);
             like.setPost(post);
-            likeService.save(0);
+            likeService.save(like);  // pass the object
             return ResponseEntity.ok(response);
         }catch(Exception e){
             response.put("message", "error: " + e.getMessage());
@@ -156,7 +157,8 @@ public class UserController {
                 Like like = post1.getLikes();
                 System.out.println(like.getId());
                 like.setLikes(like.getLikes() + 1);
-                likeService.save(like.getLikes());
+                Like like1 = new Like(like.getLikes());
+                likeService.save(like1);
                 response.put("message", "succes");
             }else{
                 response.put("message", "something went wrong");

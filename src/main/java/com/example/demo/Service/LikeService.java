@@ -14,8 +14,8 @@ public class LikeService {
         this.likeRepository = likeRepository;
     }
 
-    public Like save(int likeCount) {
-        Like like = new Like(likeCount);
-        return likeRepository.save(like);
+    public void save(Like like) {
+        likeRepository.save(like);
     }
+
 }

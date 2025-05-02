@@ -10,11 +10,11 @@ public class ProfileStatistics {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @Column(columnDefinition = " default 0")
+    @Column(columnDefinition = "INT DEFAULT 0")
     private int followers;
-    @Column(columnDefinition = " default 0")
+    @Column(columnDefinition = "INT DEFAULT 0")
     private int countOfLikes;
-    @Column(columnDefinition = " default 0")
+    @Column(columnDefinition = "INT DEFAULT 0")
     private int countOfPosts;
 
     @OneToOne
