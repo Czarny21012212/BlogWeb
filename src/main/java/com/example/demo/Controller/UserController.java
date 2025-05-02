@@ -103,11 +103,10 @@ public class UserController {
             }
             String email = authentication.getName();
             User user = userService.findByEmail(email).get();
-            Like like = likeService.save(0);
-            post.setLike(like);
-            post.setUser(user);
             postService.save(post);
-            System.out.println(post.getId());
+            Like like = new Like();
+            like.setPost(post);
+            likeService.save(0);
             return ResponseEntity.ok(response);
         }catch(Exception e){
             response.put("message", "error: " + e.getMessage());
@@ -154,7 +153,7 @@ public class UserController {
                 likedPostService.save(likedPost);
                 Post post1 = postService.findById(likedPostId)
                         .orElseThrow(() -> new RuntimeException("Post not found"));
-                Like like = post1.getLike();
+                Like like = post1.getLikes();
                 System.out.println(like.getId());
                 like.setLikes(like.getLikes() + 1);
                 likeService.save(like.getLikes());

@@ -12,7 +12,8 @@ public class Like {
     private Long id;
     private int likes;
 
-    @OneToOne(mappedBy = "like")
+    @OneToOne
+    @JoinColumn(name = "post_id", nullable = false)
     private Post post;
 
     public Like(int likes){

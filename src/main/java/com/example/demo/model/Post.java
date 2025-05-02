@@ -16,17 +16,17 @@ public class Post {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "like_id", nullable = false)
-    private Like like;
+    @OneToOne(mappedBy = "post")
+    private Like likes;
 
-    public Like getLike() {
-        return this.like;
+    public Like getLikes() {
+        return likes;
     }
 
-    public void setLike(Like like) {
-        this.like = like;
+    public void setLikes(Like likes) {
+        this.likes = likes;
     }
+
 
     public Post(String title, String author, String content) {
         this.title = title;
