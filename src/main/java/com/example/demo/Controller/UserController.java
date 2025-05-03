@@ -137,35 +137,40 @@ public class UserController {
     }
 
     @PostMapping("/likePost")
-    public ResponseEntity<Map<String, String>> likePost(@RequestBody LikedPost likedPost, HttpServletRequest request) {
-        Map<String, String> response = new HashMap<>();
+    public ResponseEntity<Map<String, String>> likePost(@RequestBody LikedPost likedPost) {
+            Map<String, String> response = new HashMap<>();
 
-            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            if (authentication == null || !authentication.isAuthenticated() || authentication.getPrincipal().equals("anonymousUser")) {
-                return null;
-            }
+           try{
+               Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+               if (authentication == null || !authentication.isAuthenticated() || authentication.getPrincipal().equals("anonymousUser")) {
+                   return null;
+               }
 
-            User user = userService.findByEmail(authentication.getName()).get();
-            Long likedPostId = likedPost.getLikedPostId();
-            Optional<LikedPost> post = likedPostService.findByUserAndLikedPostId(user, likedPostId);
+               User user = userService.findByEmail(authentication.getName()).get();
+               Long likedPostId = likedPost.getLikedPostId();
+               System.out.println("Post Id: " + likedPostId);
+               Optional<LikedPost> post = likedPostService.findByUserAndLikedPostId(user, likedPostId);
 
-            if(post.isEmpty()){
-                likedPost.setUser(user);
-                likedPostService.save(likedPost);
-                Post post1 = postService.findById(likedPostId)
-                        .orElseThrow(() -> new RuntimeException("Post not found"));
-                Like like = post1.getLikes();
-                System.out.println(like.getId());
-                like.setLikes(like.getLikes() + 1);
-                Like like1 = new Like(like.getLikes());
-                likeService.save(like1);
-                response.put("message", "succes");
-            }else{
-                response.put("message", "something went wrong");
-            }
+               if(post.isEmpty()){
+                   likedPost.setUser(user);
+                   likedPostService.save(likedPost);
+                   Post post1 = postService.findById(likedPostId)
+                           .orElseThrow(() -> new RuntimeException("Post not found"));
+                   Like like = post1.getLikes();
+                   like.setLikes(like.getLikes() + 1);
+                   likeService.save(like);
+                   response.put("message", "succes");
+               }else{
+                   response.put("message", "something went wrong");
+               }
 
-            return ResponseEntity.ok(response);
+               return ResponseEntity.ok(response);
 
+           }catch(Exception e){
+               response.put("message", "error: " + e.getMessage());
+               ResponseEntity.badRequest().body(response);
+           }
+           return ResponseEntity.ok(response);
     }
 
 
