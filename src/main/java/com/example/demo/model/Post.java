@@ -2,6 +2,8 @@ package com.example.demo.model;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 public class Post {
     public Post(){}
@@ -19,11 +21,17 @@ public class Post {
     @OneToOne(mappedBy = "post")
     private Like likes;
 
+    @OneToMany(mappedBy = "post")
+    private List<Comments> comments;
+
     public Post(String title, String author, String content) {
         this.title = title;
         this.author = author;
         this.content = content;
     }
+
+    public List<Comments> getComments() {return comments;}
+    public void setComments(List<Comments> comments) {this.comments = comments;}
 
     public Like getLikes() {
         return likes;
