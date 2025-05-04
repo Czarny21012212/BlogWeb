@@ -13,8 +13,11 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.xml.stream.events.Comment;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
 
 @RestController
 @RequestMapping("/api")
@@ -48,5 +51,35 @@ public class CommentsController {
             response.put("message", e.getMessage());
         }
         return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/showCommetns")
+    public List<Map<String, Object>> showComments(@RequestBody Map<String, Long> postData) {
+        Map<String, String> response = new HashMap<>();
+
+
+        try{
+            Long postId = postData.get("post_id");
+            Optional<Post> post = postService.findById(postId);
+            if(post.isPresent()){
+                List<Comments> comments = commentsService.findAllComments(postId);
+
+                return comments.stream()
+                        .map(comment -> {
+                            Map<String, Object> commentMap = new HashMap<>();
+                            commentMap.put("content", comment.getContent());
+                            commentMap.put("publicationDate", comment.getPublicationDate());
+                            commentMap.put("email", comment.getPost().getUser().getEmail());
+                            return commentMap;
+                        })
+                        .collect(Collectors.toList());
+
+            }
+        }catch(Exception e) {
+            response.put("message", e.getMessage());
+            return null;
+        }
+        return null;
+
     }
 }

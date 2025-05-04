@@ -27,6 +27,13 @@ public class Comments {
         this.id = id;
     }
 
+    public void setPublicationDate(String publicationDate) {
+        this.publicationDate = publicationDate;
+    }
+    public String getPublicationDate(){
+        return publicationDate;
+    }
+
     public String getContent() {
         return content;
     }
