@@ -23,4 +23,8 @@ public class CommentsService {
     public List<Comments> findAllComments(Long id) {
         return commentsRepository.findByPostId(id);
     }
+
+    public Comments findById(Long id) {
+        return commentsRepository.findById(id).orElse(null);
+    }
 }

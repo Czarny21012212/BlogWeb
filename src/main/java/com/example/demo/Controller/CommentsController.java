@@ -2,16 +2,15 @@ package com.example.demo.Controller;
 
 import com.example.demo.Service.CommentsService;
 import com.example.demo.Service.PostService;
-import com.example.demo.Service.UserService;
 import com.example.demo.model.Comments;
 import com.example.demo.model.Post;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import javax.xml.stream.events.Comment;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,9 +33,16 @@ public class CommentsController {
     @PostMapping("/comment")
     public ResponseEntity<Map<String, String>> addComment(@RequestBody Map<String, Object> commentData) {
         Map<String, String> response = new HashMap<>();
-        System.out.println(commentData.get("post_id"));
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if(authentication==null){
+            response.put("status", "error");
+            return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+        }
 
         try {
+
             Optional<Post> post = postService.findById(Long.valueOf((Integer) commentData.get("post_id")));
 
             if(post.isPresent()){
@@ -44,7 +50,7 @@ public class CommentsController {
                 comment.setPost(post.get());
 
                 commentsService.save(comment);
-                response.put("status", "ok");
+                response.put("status", "success");
             }
 
         }catch(Exception e) {
@@ -57,7 +63,6 @@ public class CommentsController {
     public List<Map<String, Object>> showComments(@RequestBody Map<String, Long> postData) {
         Map<String, String> response = new HashMap<>();
 
-
         try{
             Long postId = postData.get("post_id");
             Optional<Post> post = postService.findById(postId);
@@ -69,7 +74,7 @@ public class CommentsController {
                             Map<String, Object> commentMap = new HashMap<>();
                             commentMap.put("content", comment.getContent());
                             commentMap.put("publicationDate", comment.getPublicationDate());
-                            commentMap.put("email", comment.getPost().getUser().getEmail());
+                            commentMap.put("userName", comment.getPost().getUser().getProfile().getUserName());
                             return commentMap;
                         })
                         .collect(Collectors.toList());

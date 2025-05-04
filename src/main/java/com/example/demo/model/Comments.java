@@ -2,6 +2,8 @@ package com.example.demo.model;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 public class Comments {
     public Comments() {}
@@ -14,6 +16,9 @@ public class Comments {
     @ManyToOne
     @JoinColumn(name = "post_id", nullable = false)
     private Post post;
+
+    @OneToMany(mappedBy = "comments")
+    private List<CommentsReplies> commentsReplies;
 
     public Comments(String content, String publicationDate) {
         this.content = content;
@@ -47,6 +52,9 @@ public class Comments {
     public void setPost(Post post) {
         this.post = post;
     }
+
+    public List<CommentsReplies> getCommentsReplies() {return commentsReplies;}
+    public void setCommentsReplies(List<CommentsReplies> commentsReplies) {}
 
 
 }
