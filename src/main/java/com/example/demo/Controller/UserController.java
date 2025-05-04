@@ -107,7 +107,7 @@ public class UserController {
             postService.save(post);
             Like like = new Like(0);
             like.setPost(post);
-            likeService.save(like);  // pass the object
+            likeService.save(like);
             return ResponseEntity.ok(response);
         }catch(Exception e){
             response.put("message", "error: " + e.getMessage());

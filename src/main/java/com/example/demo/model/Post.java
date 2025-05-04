@@ -19,28 +19,26 @@ public class Post {
     @OneToOne(mappedBy = "post")
     private Like likes;
 
-    public Like getLikes() {
-        return likes;
-    }
-
-    public void setLikes(Like likes) {
-        this.likes = likes;
-    }
-
-
     public Post(String title, String author, String content) {
         this.title = title;
         this.author = author;
         this.content = content;
     }
 
+    public Like getLikes() {
+        return likes;
+    }
+    public void setLikes(Like likes) {
+        this.likes = likes;
+    }
+
     public Long getId() {
         return id;
     }
+    public void setId(Long id) {this.id = id;}
 
-    public void setUser(User user) {
-        this.user = user;
-    }
+    public User getUser() {return user;}
+    public void setUser(User user) {this.user = user;}
 
     public String getTitle() {
         return title;
