@@ -1,0 +1,237 @@
+/* Main styles */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background-color: #15202b;
+    color: #ffffff;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow-x: hidden;
+  }
+  .all-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 120vw;
+  }
+  
+  /* Container */
+  .login-container {
+    background-color: #192734;
+    border-radius: 16px;
+    width: 20vw;
+    max-width: 480px;
+    padding: 40px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  }
+  
+  /* Header */
+  h1 {
+    color: #ffffff;
+    font-size: 24px;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 24px;
+    letter-spacing: 0.2px;
+  }
+  
+  .blog-title {
+    color: #1d9bf0;
+    font-size: 28px;
+    margin-bottom: 8px;
+  }
+  
+  /* Form */
+  .login-form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Labels */
+  label {
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 8px;
+    color: #8899a6;
+  }
+  
+  /* Inputs */
+  input {
+    height: 44px;
+    padding: 0 12px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    border: 1px solid #38444d;
+    background-color: #253341;
+    color: #ffffff;
+    font-size: 16px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  input:focus {
+    outline: none;
+    border-color: #1d9bf0;
+    box-shadow: 0 0 0 2px rgba(29, 155, 240, 0.3);
+  }
+  
+  input::placeholder {
+    color: #5c6d7a;
+  }
+  
+  /* Button */
+  button {
+    height: 44px;
+    border-radius: 50px;
+    background-color: #1d9bf0;
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 15px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: 8px;
+  }
+  
+  button:hover {
+    background-color: #1a8cd8;
+  }
+  
+  button:active {
+    background-color: #177cc0;
+    transform: translateY(1px);
+  }
+  
+  /* Error message */
+  .error-message {
+    background-color: rgba(224, 36, 94, 0.1);
+    border-left: 3px solid #e0245e;
+    color: #f8a9c4;
+    padding: 12px;
+    margin-top: 16px;
+    border-radius: 4px;
+    font-size: 14px;
+  }
+
+  .success-message {
+    background-color: rgba(36, 224, 99, 0.068);
+    border-left: 3px solid #24e079;
+    color: #a9f8ad;
+    padding: 12px;
+    margin-top: 16px;
+    border-radius: 4px;
+    font-size: 14px;
+  }
+  
+  /* Additional elements */
+  .divider {
+    display: flex;
+    align-items: center;
+    margin: 20px 0;
+    color: #8899a6;
+    font-size: 14px;
+  }
+  
+  .divider::before,
+  .divider::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background-color: #38444d;
+  }
+  
+  .divider::before {
+    margin-right: 10px;
+  }
+  
+  .divider::after {
+    margin-left: 10px;
+  }
+  
+  .signup-link {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 14px;
+    color: #8899a6;
+  }
+  
+  .signup-link a {
+    color: #1d9bf0;
+    text-decoration: none;
+  }
+  
+  .signup-link a:hover {
+    text-decoration: underline;
+  }
+  
+  /* Password input wrapper */
+  .password-input-wrapper {
+    position: relative;
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  
+  .password-input-wrapper input {
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 0;
+  }
+  
+  .toggle-password {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: #8899a6;
+    cursor: pointer;
+    padding: 0;
+    height: auto;
+    display: flex;
+    align-items: center;
+    margin-top: 0;
+  }
+  
+  .toggle-password:hover {
+    color: #1dc6f0;
+    background-color: transparent;
+  }
+  
+  /* Remember me */
+  .form-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .remember-me {
+    display: flex;
+    align-items: center;
+  }
+  
+  .remember-me input {
+    margin: 0 8px 0 0;
+    width: 16px;
+    height: 16px;
+    min-width: auto;
+  }
+  
+  .remember-me label {
+    margin: 0;
+  }
+  
+  .forgot-password {
+    color: #1d9bf0;
+    font-size: 14px;
+    text-decoration: none;
+  }
+  
+  .forgot-password:hover {
+    text-decoration: underline;
+  }
