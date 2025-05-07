@@ -54,62 +54,32 @@ public class UserController {
         Map<String, String> response = new HashMap<>();
 
         try{
-            String email = request.get("email").toString();
+            if(!request.containsKey("email") || !request.containsKey("password") || !request.containsKey("username")){
+                response.put("message", "Missing required fields");
+                return ResponseEntity.badRequest().body(response);
+            }
+
+            String email = request.get("email").toString().trim();
             String password = request.get("password").toString();
-            String username = request.get("username").toString();
+            String username = request.get("username").toString().trim();
 
             User user = new User(email, password);
             Profile profile = new Profile(username);
 
-            if(userService.findByEmail(user.getEmail()).isEmpty()) response.put("message", "Something went wrong");
+            if(userService.findByEmail(user.getEmail()).isPresent()) {
+                response.put("message", "Something went wrong");
+                return ResponseEntity.ok(response);
+            }
 
             userService.createUserWithProfile(user, profile);
 
-            ProfileStatistics profileStatistics = new ProfileStatistics();
-            profileStatistics.setProfile(profile);
-            profileStatisticsService.save(profileStatistics);
+            response.put("message", "success");
+            return ResponseEntity.ok(response);
 
         }catch(Exception e){
             response.put("message", e.getMessage());
+            return ResponseEntity.badRequest().body(response);
         }
-        return ResponseEntity.ok(response);
-
-    }
-
-    @PostMapping("/register")
-    public ResponseEntity<Map<String, String>> register(@RequestBody User user) {
-        Map<String, String> response = new HashMap<>();
-        try{
-            if(userService.findByEmail(user.getEmail()).isEmpty()){
-                userService.save(user);
-                response.put("message", "success");
-            }else{
-                response.put("message", "Something went wrong");
-            }
-        }catch(Exception e){
-            response.put("message", "error: " + e.getMessage());
-            ResponseEntity.badRequest().body(response);
-        }
-        return ResponseEntity.ok(response);
-    }
-
-    @PostMapping("/createProfile")
-    public ResponseEntity<Map<String, String>> createProfile(@RequestBody Profile profile) {
-        Map<String, String> response = new HashMap<>();
-
-        try{
-            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            String email = authentication.getName();
-            Optional<User> user = userService.findByEmail(email);
-            profile.setUser(user.get());
-            profileService.save(profile);
-            ProfileStatistics profileStatistics = new ProfileStatistics();
-            profileStatistics.setProfile(profile);
-            profileStatisticsService.save(profileStatistics);
-        }catch(Exception e){
-            response.put("message", "error" + e.getMessage());
-        }
-        return ResponseEntity.ok(response);
 
     }
 

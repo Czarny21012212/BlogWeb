@@ -36,6 +36,7 @@ public class UserService {
 
     @Transactional
     public void createUserWithProfile(User user, Profile profile) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
         profile.setUser(user);
         profileService.save(profile);

@@ -41,25 +41,6 @@ public class ProfileController {
     }
 
 
-    @PostMapping("/createProfile")
-    public ResponseEntity<Map<String, String>> createProfile(@RequestBody Profile profile) {
-        Map<String, String> response = new HashMap<>();
-
-        try{
-            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            String email = authentication.getName();
-            Optional<User> user = userService.findByEmail(email);
-            profile.setUser(user.get());
-            profileService.save(profile);
-            ProfileStatistics profileStatistics = new ProfileStatistics();
-            profileStatistics.setProfile(profile);
-            profileStatisticsService.save(profileStatistics);
-        }catch(Exception e){
-            response.put("message", "error" + e.getMessage());
-        }
-        return ResponseEntity.ok(response);
-
-    }
 
     @PostMapping("/followUser")
     public ResponseEntity<Map<String, String>> followUser(@RequestBody  Map<String, String> userFollowEmail) {
