@@ -1,34 +1,25 @@
 package com.example.demo.Controller;
 
-import com.example.demo.Repository.LikeRepository;
 import com.example.demo.Repository.LikedPostRepository;
 import com.example.demo.Repository.UserRepository;
-import com.example.demo.Service.LikeService;
-import com.example.demo.Service.LikedPostService;
-import com.example.demo.model.Like;
-import com.example.demo.model.LikedPost;
-import com.example.demo.model.Post;
+import com.example.demo.Service.*;
+import com.example.demo.model.*;
 import com.example.demo.Repository.PostRepository;
-import com.example.demo.Service.PostService;
-import com.example.demo.Service.UserService;
+import com.fasterxml.jackson.databind.ser.std.StdKeySerializers;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import com.example.demo.model.User;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
-
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api")
 public class UserController {
@@ -41,9 +32,11 @@ public class UserController {
     private final LikedPostService likedPostService;
     private final LikedPostRepository likedPostRepository;
     private final LikeService likeService;
+    private final ProfileService profileService;
+    private final ProfileStatisticsService profileStatisticsService;
 
     @Autowired
-    public UserController(UserService userService, AuthenticationManager authenticationManager, PostService postService, PostRepository postRepository, PostService postService1, UserRepository userRepository, LikedPostService likedPostService, LikedPostRepository likedPostRepository, LikeService likeService) {
+    public UserController(UserService userService, AuthenticationManager authenticationManager, PostService postService, PostRepository postRepository, PostService postService1, UserRepository userRepository, LikedPostService likedPostService, LikedPostRepository likedPostRepository, LikeService likeService, ProfileService profileService, ProfileStatisticsService profileStatisticsService) {
         this.userService = userService;
         this.authenticationManager = authenticationManager;
         this.postRepository = postRepository;
@@ -52,6 +45,35 @@ public class UserController {
         this.likedPostService = likedPostService;
         this.likedPostRepository = likedPostRepository;
         this.likeService = likeService;
+        this.profileService = profileService;
+        this.profileStatisticsService = profileStatisticsService;
+    }
+
+    @PostMapping("/register-2")
+    public ResponseEntity<Map<String, String>> register2(@RequestBody Map<String, Object> request) {
+        Map<String, String> response = new HashMap<>();
+
+        try{
+            String email = request.get("email").toString();
+            String password = request.get("password").toString();
+            String username = request.get("username").toString();
+
+            User user = new User(email, password);
+            Profile profile = new Profile(username);
+
+            if(userService.findByEmail(user.getEmail()).isEmpty()) response.put("message", "Something went wrong");
+
+            userService.createUserWithProfile(user, profile);
+
+            ProfileStatistics profileStatistics = new ProfileStatistics();
+            profileStatistics.setProfile(profile);
+            profileStatisticsService.save(profileStatistics);
+
+        }catch(Exception e){
+            response.put("message", e.getMessage());
+        }
+        return ResponseEntity.ok(response);
+
     }
 
     @PostMapping("/register")
@@ -69,6 +91,26 @@ public class UserController {
             ResponseEntity.badRequest().body(response);
         }
         return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/createProfile")
+    public ResponseEntity<Map<String, String>> createProfile(@RequestBody Profile profile) {
+        Map<String, String> response = new HashMap<>();
+
+        try{
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String email = authentication.getName();
+            Optional<User> user = userService.findByEmail(email);
+            profile.setUser(user.get());
+            profileService.save(profile);
+            ProfileStatistics profileStatistics = new ProfileStatistics();
+            profileStatistics.setProfile(profile);
+            profileStatisticsService.save(profileStatistics);
+        }catch(Exception e){
+            response.put("message", "error" + e.getMessage());
+        }
+        return ResponseEntity.ok(response);
+
     }
 
     @PostMapping("/login")
@@ -99,8 +141,8 @@ public class UserController {
             if (authentication == null || !authentication.isAuthenticated() || authentication.getPrincipal().equals("anonymousUser")) {
                 response.put("message", "You are not logged in");
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
-
             }
+
             String email = authentication.getName();
             User user = userService.findByEmail(email).get();
             post.setUser(user);
@@ -122,11 +164,24 @@ public class UserController {
     }
 
     @GetMapping("/my-post")
-    public List<Post> myPost(HttpServletRequest request) {
-        HttpSession session = request.getSession(true);
+    public List<Map<String, Object>> myPost(HttpServletRequest request) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated() || authentication.getPrincipal().equals("anonymousUser")) {
+            return null;
+        }
         User user = userService.findByEmail(authentication.getName()).get();
-        return postService.findMyPost(user.getId());
+        List<Post> posts = postService.findMyPost(user.getId());
+
+        List<Map<String, Object>> response = new ArrayList<>();
+        for (Post post : posts) {
+            Map<String, Object> postData = new HashMap<>();
+            postData.put("id", postService.getPostId(post));
+            postData.put("title", post.getTitle());
+            postData.put("author", post.getAuthor());
+            postData.put("content", post.getContent());
+            response.add(postData);
+        }
+        return response;
     }
 
     @GetMapping("/my-data")
@@ -163,7 +218,6 @@ public class UserController {
                }else{
                    response.put("message", "something went wrong");
                }
-
                return ResponseEntity.ok(response);
 
            }catch(Exception e){
@@ -173,6 +227,30 @@ public class UserController {
            return ResponseEntity.ok(response);
     }
 
+    @PostMapping("/delete-post")
+    public Boolean deletePost(@RequestBody Map<String, Long> dataPost, HttpServletRequest request) {
+        Map<String, String> response = new HashMap<>();
 
+        System.out.println(dataPost.get("post_id"));
 
+        try{
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            if (authentication == null || !authentication.isAuthenticated() || authentication.getPrincipal().equals("anonymousUser")) {
+                return false;
+            }
+            User user = userService.findByEmail(authentication.getName()).get();
+            Long postId = dataPost.get("post_id");
+            Post post = postService.findById(postId).get();
+
+            if(Objects.equals(post.getUser().getId(), user.getId())){
+                postService.deleteById(postId);
+                return true;
+            }
+            else return false;
+
+        }catch(Exception e){
+            response.put("message", "error: " + e.getMessage());
+        }
+        return false;
+    }
 }

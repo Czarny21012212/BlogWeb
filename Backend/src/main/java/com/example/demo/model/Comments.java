@@ -14,10 +14,10 @@ public class Comments {
     private String publicationDate;
 
     @ManyToOne
-    @JoinColumn(name = "post_id", nullable = false)
+    @JoinColumn(name = "post_id")
     private Post post;
 
-    @OneToMany(mappedBy = "comments")
+    @OneToMany(mappedBy = "comments", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CommentsReplies> commentsReplies;
 
     public Comments(String content, String publicationDate) {

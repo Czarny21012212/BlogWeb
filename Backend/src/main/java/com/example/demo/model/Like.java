@@ -15,7 +15,7 @@ public class Like {
 
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "post_id", nullable = false)
+    @JoinColumn(name = "post_id")
     private Post post;
 
     public Like(int likes){

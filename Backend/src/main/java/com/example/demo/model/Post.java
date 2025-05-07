@@ -18,10 +18,10 @@ public class Post {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @OneToOne(mappedBy = "post")
+    @OneToOne(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     private Like likes;
 
-    @OneToMany(mappedBy = "post")
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comments> comments;
 
     public Post(String title, String author, String content) {

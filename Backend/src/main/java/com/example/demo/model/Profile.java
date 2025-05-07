@@ -10,6 +10,7 @@ public class Profile {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String userName;
+    @Column(columnDefinition = "STRING DEFAULT NOTHING")
     private String biography;
 
     @OneToOne(mappedBy = "profile")
@@ -20,9 +21,9 @@ public class Profile {
     private User user;
 
 
-    public Profile(String userName, String biography) {
+    public Profile(String userName) {
         this.userName = userName;
-        this.biography = biography;
+        this.biography = "";
     }
 
     public User getUser() {

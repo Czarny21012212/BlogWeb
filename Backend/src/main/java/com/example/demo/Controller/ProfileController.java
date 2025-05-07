@@ -40,6 +40,7 @@ public class ProfileController {
         this.followingUserService = followingUserService;
     }
 
+
     @PostMapping("/createProfile")
     public ResponseEntity<Map<String, String>> createProfile(@RequestBody Profile profile) {
         Map<String, String> response = new HashMap<>();
