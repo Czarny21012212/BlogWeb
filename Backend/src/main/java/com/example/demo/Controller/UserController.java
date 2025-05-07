@@ -84,21 +84,22 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Map<String, String>> login(@RequestBody User user, HttpServletRequest request) {
+    public ResponseEntity<Map<String, String>> login(@RequestBody User request, HttpServletRequest httpRequest) {
         Map<String, String> response = new HashMap<>();
-        try{
-            Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword())
-            );
+        try {
+            UsernamePasswordAuthenticationToken authToken =
+                    new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword());
+
+            Authentication authentication = authenticationManager.authenticate(authToken);
             SecurityContextHolder.getContext().setAuthentication(authentication);
-            System.out.println(authentication);
-            HttpSession session = request.getSession(true);
+
+            HttpSession session = httpRequest.getSession(true);
             session.setAttribute("SPRING_SECURITY_CONTEXT", SecurityContextHolder.getContext());
-            response.put("message", "success");
-        }catch(Exception e){
-            response.put("message", "error: " + e.getMessage());
+
+            return ResponseEntity.ok(Map.of("message", "success"));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("message", "Login failed"));
         }
-        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/add-post")
@@ -123,13 +124,18 @@ public class UserController {
             return ResponseEntity.ok(response);
         }catch(Exception e){
             response.put("message", "error: " + e.getMessage());
-            ResponseEntity.badRequest().body(response);
+            return ResponseEntity.badRequest().body(response);
         }
-        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/all-post")
-    public List<Map<String, Object>> allPost() {
+    public ResponseEntity<List<Map<String, Object>>> allPost() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication == null || !authentication.isAuthenticated() || authentication.getPrincipal() instanceof String) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Collections.emptyList());
+        }
+
         List<Map<String, Object>> response = new ArrayList<>();
         List<Post> posts =  postRepository.findAll();
 
@@ -141,7 +147,7 @@ public class UserController {
             postData.put("title", post.getTitle());
             response.add(postData);
         }
-        return response;
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/my-post")
@@ -173,7 +179,7 @@ public class UserController {
     }
 
     @PostMapping("/likePost")
-    public ResponseEntity<Map<String, String>> likePost(@RequestBody LikedPost likedPost) {
+    public ResponseEntity<Map<String, String>> likePost(@RequestBody Map<String, Long> request, HttpServletRequest httpRequest) {
             Map<String, String> response = new HashMap<>();
 
            try{
@@ -183,11 +189,12 @@ public class UserController {
                }
 
                User user = userService.findByEmail(authentication.getName()).get();
-               Long likedPostId = likedPost.getLikedPostId();
+               Long likedPostId =  request.get("postId");
                System.out.println("Post Id: " + likedPostId);
                Optional<LikedPost> post = likedPostService.findByUserAndLikedPostId(user, likedPostId);
 
                if(post.isEmpty()){
+                   LikedPost likedPost = new LikedPost(request.get("postId"));
                    likedPost.setUser(user);
                    likedPostService.save(likedPost);
                    Post post1 = postService.findById(likedPostId)
@@ -234,4 +241,25 @@ public class UserController {
         }
         return false;
     }
+
+    @PostMapping("/countOfLikes")
+    public ResponseEntity<Map<String, Integer>> countOfLikes(@RequestBody Map<String, Long> request,  HttpServletRequest HttpRequest) {
+        Map<String, Integer> response = new HashMap<>();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication == null || !authentication.isAuthenticated() || authentication.getPrincipal().equals("anonymousUser")) {
+            return null;
+        }
+
+        try{
+            Post post = postService.findById(request.get("postId")).get();
+            post.getLikes().getLikes();
+            response.put("likes", post.getLikes().getLikes());
+        }catch(Exception e){
+            response.put("likes", null);
+            return ResponseEntity.badRequest().body(response);
+        }
+        return ResponseEntity.ok(response);
+    }
+
 }

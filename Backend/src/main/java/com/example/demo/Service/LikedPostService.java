@@ -25,4 +25,8 @@ public class LikedPostService {
     public void save(LikedPost likedPost) {
         likedPostRepository.save(likedPost);
     }
+
+    public LikedPost findById(Long id) {
+        return likedPostRepository.findById(id).orElse(null);
+    }
 }

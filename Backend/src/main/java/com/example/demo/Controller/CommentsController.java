@@ -59,6 +59,16 @@ public class CommentsController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/auth-check")
+    public ResponseEntity<?> checkAuth() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return ResponseEntity.ok(Map.of(
+                "authenticated", authentication != null && authentication.isAuthenticated(),
+                "name", authentication != null ? authentication.getName() : "anonymous"
+        ));
+    }
+
+
     @PostMapping("/showCommetns")
     public List<Map<String, Object>> showComments(@RequestBody Map<String, Long> postData) {
         Map<String, String> response = new HashMap<>();
