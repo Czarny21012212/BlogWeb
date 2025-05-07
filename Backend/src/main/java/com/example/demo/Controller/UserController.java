@@ -129,8 +129,19 @@ public class UserController {
     }
 
     @GetMapping("/all-post")
-    public List<Post> allPost() {
-        return postRepository.findAll();
+    public List<Map<String, Object>> allPost() {
+        List<Map<String, Object>> response = new ArrayList<>();
+        List<Post> posts =  postRepository.findAll();
+
+        for(Post post : posts ){
+            Map<String, Object> postData = new HashMap<>();
+            postData.put("id", postService.getPostId(post));
+            postData.put("content", post.getContent());
+            postData.put("author", post.getAuthor());
+            postData.put("title", post.getTitle());
+            response.add(postData);
+        }
+        return response;
     }
 
     @GetMapping("/my-post")
