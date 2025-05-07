@@ -7,7 +7,8 @@ function Register() {
     const [message, setMessage] = useState('');
     const [registerData, setRegisterData] = useState({
         email: '',
-        password: ''
+        password: '',
+        username: ''
     });
 
     const [passwordRepeat, setPasswordRepeat] = useState()
@@ -29,7 +30,7 @@ function Register() {
     };
 
     const handleSubmit = () => {
-        fetch('http://localhost:8082/api/register', {
+        fetch('http://localhost:8082/api/register-2', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -50,6 +51,11 @@ function Register() {
             console.error('Error:', error);
         });
     }
+
+    const taggle = (e) => {
+        setRegisterData({ ...registerData, [e.target.name]: e.target.value });   
+    }
+
   return (
     <div className="register-wrapper">
         <div className="register-container">
@@ -66,12 +72,23 @@ function Register() {
 
             <div className="register-form">
             <div className="register-form-group">
+                <label htmlFor="email">Username</label>
+                <input
+                type="text"
+                name="username"
+                placeholder="Enter your username"
+                onChange={e => taggle(e)}
+                className="register-input"
+                />
+            </div>
+
+            <div className="register-form-group">
                 <label htmlFor="email">Email</label>
                 <input
                 type="text"
                 name="email"
                 placeholder="Enter your email"
-                onChange={e => setRegisterData({ ...registerData, [e.target.name]: e.target.value })}
+                onChange={e => taggle(e)}
                 className="register-input"
                 />
             </div>
@@ -93,7 +110,7 @@ function Register() {
                 type="password"
                 name="password"
                 placeholder="Enter your password again"
-                onChange={e => setRegisterData({ ...registerData, [e.target.name]: e.target.value })}
+                onChange={e => taggle(e)}
                 className="register-input"
                 />
             </div>
