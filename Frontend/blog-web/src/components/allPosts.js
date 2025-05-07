@@ -1,4 +1,6 @@
 import  { useEffect, useState } from 'react';
+import '../Home/home.css';
+import StatisticsPost from './StatisticsPost';
 
 function AllPosts() {
 
@@ -7,6 +9,7 @@ function AllPosts() {
     useEffect(() => {
         fetch('http://localhost:8082/api/all-post', {
             method: 'GET',
+            credentials: 'include',
             headers: {
                 'Content-Type': 'application/json'
             }
@@ -28,13 +31,20 @@ function AllPosts() {
 
   return (
    <>
-   {posts.map((post) => (
-    <div className="post" key={post.id}>
-        <h2>{post.title}</h2>
-        <p>{post.content}</p>
-        <p>Author: {post.author}</p>
+   <div className="posts-container">
+    {posts.map((post) => (
+        <div className="post" key={post.id}>
+        <div className="post-header">
+            <h2 className="post-title">{post.title}</h2>
+            <span className="post-author">@{post.author}</span>
+        </div>
+        <p className="post-content">{post.content}</p>
+
+        <StatisticsPost postId={post.id}></StatisticsPost>
+        </div>
+    ))}
     </div>
-   ))}
+
     
    </>
   );

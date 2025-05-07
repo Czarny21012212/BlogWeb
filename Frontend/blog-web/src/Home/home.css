@@ -1,0 +1,84 @@
+@import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:ital,wght@0,200..800;1,200..800&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+body {
+    background-color: #15202b;
+    color: #ffffff;
+    font-family: "Open Sans", sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .posts-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    max-width: 700px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+  }
+  
+  .post {
+    background-color: #192734;
+    border: 1px solid #253341;
+    border-radius: 16px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transition: background 0.3s ease, transform 0.2s ease;
+  }
+  
+  .post-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  
+  .post-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #e8f5fe;
+    margin: 0;
+  }
+  
+  .post-author {
+    font-size: 0.95rem;
+    color: #8899a6;
+  }
+  
+  .post-content {
+    font-size: 1rem;
+    color: #ccd6dd;
+    line-height: 1.6;
+  }
+  
+
+  /* Statistics Design */
+
+  .statistics-container {
+    display: flex;
+    align-items: center;
+    padding: 4px 8px;
+  }
+  
+  .statistics-icon {
+    font-family: "Open Sans", sans-serif;
+    background: none;
+    border: none;
+    font-size: 14px;
+    color: #d1d1d1;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+    padding: 2px;
+  }
+  
+  .statistics-icon:hover {
+    color: #ffee00cb;
+    background-color: #1d9cf000;
+  }
+  
+  
+  
+  
+  
