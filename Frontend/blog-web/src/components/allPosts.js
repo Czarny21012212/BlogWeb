@@ -1,6 +1,7 @@
 import  { useEffect, useState } from 'react';
 import '../Home/home.css';
 import StatisticsPost from './StatisticsPost';
+import Comments from './comments';
 
 function AllPosts() {
 
@@ -41,6 +42,7 @@ function AllPosts() {
         <p className="post-content">{post.content}</p>
 
         <StatisticsPost postId={post.id}></StatisticsPost>
+        <Comments postId={post.id}></Comments>
         </div>
     ))}
     </div>
