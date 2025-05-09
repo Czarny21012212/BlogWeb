@@ -215,7 +215,9 @@ body {
 .comment-input {
   flex: 1;
   background: transparent;
+  height: 20px;
   border: none;
+  margin-top: 20px;
   color: var(--text-primary);
   font-size: 15px;
   font-family: 'Open Sans', sans-serif;
@@ -321,17 +323,19 @@ body {
   font-size: 13px;
   color: #8899a6;
 }
-
+.reply-header-container{
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  margin-bottom: 4px;
+}
 .reply-content {
   color: #c3c3c3;
   font-size: 14px;
   line-height: 1.5;
   margin-top: 4px;
 }
-
 .reply-show {
-  margin-left: 32px;
-  width: 15%;
   margin-bottom: 8px;
   color: #8ab4f8;
   font-size: 13px;
@@ -346,4 +350,41 @@ body {
   font-size: 13px;
   color: #8899a6;
   margin-top: 4px;
+}
+
+
+/* Reply Form Design */
+
+
+
+.reply-input-wrapper {
+  display: flex;
+  align-items: center;
+  height: 60px;
+  margin-left: 20px;
+  background-color: #1c1e22;
+  border: 1px solid #38444d;
+  border-radius: 16px;
+  padding: 0px 12px;
+  transition: all 0.2s ease;
+}
+.reply-input-wrapper:focus-within {
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 2px rgba(29, 155, 240, 0.2);
+}
+.reply-input {
+  flex: 1;
+  background: transparent;
+  margin-top: 20px;
+  border: none;
+  color: var(--text-primary);
+  font-size: 15px;
+  font-family: 'Open Sans', sans-serif;
+  outline: none;
+  padding: 8px 4px;
+  line-height: 1.4;
+}
+.reply-input:focus {
+  outline: none; 
+  box-shadow: none;
 }

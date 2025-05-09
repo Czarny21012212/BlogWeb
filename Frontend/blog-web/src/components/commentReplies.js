@@ -1,5 +1,6 @@
 import React, { use, useEffect, useState } from 'react';
 import '../Home/home.css';
+import { Send } from 'lucide-react';
 
 
 function CommentsReplies({ CommentId }) {
@@ -7,7 +8,6 @@ function CommentsReplies({ CommentId }) {
     const commentData = {
         "comment_id": CommentId
     }
-
     const [commentsRepliesVisible, setCommentsRepliesVisible] = useState(false);
 
 
@@ -66,11 +66,6 @@ function CommentsReplies({ CommentId }) {
             return `${years} years ago`;
         }
     }   
-
-
-
-
-
 
     const [yourCommentReply, setYourCommentReply] = useState({
         content: '',
@@ -136,25 +131,36 @@ function CommentsReplies({ CommentId }) {
               console.error('Error:', error);
           });
         }
+       
+        const [writeReply, setWriteReply] = useState(false);
 
-
-
-
-
-
-
+        const writeReplay = () => {
+            setWriteReply(!writeReply);
+        }
 
   return (
    <>
     <div>
-        
-        {replies.length != 0 && <p onClick={changeVisibility} className='reply-show'>view {replies.length} replies</p>}
+        <div className="reply-header-container">
+            <p onClick={writeReplay} className='reply-show'> replay</p>
+            {replies.length != 0 && <p onClick={changeVisibility} className='reply-show'>view {replies.length} replies</p> }
+        </div>
+        { writeReply && 
+            <div className="reply-input-wrapper">
+                <input
+                    type="text"
+                    placeholder="Your reply"
+                    className="reply-input"
+                    onChange={e =>
+                    setYourCommentReply({ ...yourCommentReply, content: e.target.value })
+                    }
+                />
+                <button type="button" onClick={checkCommentReply} className="comment-submit">
+                    <Send />
+                </button>
+            </div>}
         {commentsRepliesVisible && (
         <div>
-            <p>write reply</p>
-            <input type="text" placeholder="Your reply" onChange={e => setYourCommentReply({...yourCommentReply, content: e.target.value})}/>
-            <input type="submit" onClick={checkCommentReply}/>
-
             {replies.map((reply) => (
                 <div className="reply" key={reply.id}>
                     <div className="reply-header">
@@ -165,7 +171,7 @@ function CommentsReplies({ CommentId }) {
                 </div>
             ))}
         </div>
-)}
+        )}
        
     </div>
    </>

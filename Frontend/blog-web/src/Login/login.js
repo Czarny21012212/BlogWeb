@@ -42,6 +42,8 @@ function Login() {
         })
         .then(data => {
             setMessage(data.message);
+            window.location.href = '/'; 
+
         })
         .catch(error => {
             console.error('Error:', error);
