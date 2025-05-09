@@ -292,3 +292,58 @@ body {
     justify-content: space-around;
   }
 }
+
+.reply {
+  margin-left: 20px;
+  margin-top: 12px;
+  padding: 10px 14px;
+  background-color: #1e2a38;
+  border: 1px solid #2b3a4b;
+  border-radius: 10px;
+  font-size: 14px;
+  color: #d1d1d1;
+}
+
+.reply-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.reply-title {
+  font-size: 15px;
+  font-weight: 500;
+  color: #f0f0f0;
+  margin: 0;
+}
+
+.reply-author {
+  font-size: 13px;
+  color: #8899a6;
+}
+
+.reply-content {
+  color: #c3c3c3;
+  font-size: 14px;
+  line-height: 1.5;
+  margin-top: 4px;
+}
+
+.reply-show {
+  margin-left: 32px;
+  width: 15%;
+  margin-bottom: 8px;
+  color: #8ab4f8;
+  font-size: 13px;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.reply-show:hover {
+  color: #bbd5ff;
+}
+.reply-publication{
+  font-size: 13px;
+  color: #8899a6;
+  margin-top: 4px;
+}
