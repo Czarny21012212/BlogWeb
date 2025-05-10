@@ -35,10 +35,6 @@ function Comments({ postId }) {
         .catch(error => {
             console.error('Error:', error);
         });
-
-        console.log("postId", postId);
-        console.log("postData", postData);
-
     }, []);
 
     const handleShowComments = () => {
@@ -55,10 +51,7 @@ function Comments({ postId }) {
   
 
     const checkComment = () => {
-      
-
       const userComment = yourComment.content.trim();
-      console.log(yourComment)
 
       if (userComment === '') {
           setCommentMessage('Please enter your comment');
@@ -146,7 +139,11 @@ function Comments({ postId }) {
     return (
         <div className="comments-container">
           <p className="toggle-comments" onClick={handleShowComments}>
-            {postVisible ? 'Ukryj komentarze' : 'Pokaż komentarze'}
+            {postVisible 
+              ? 'Ukryj komentarze' 
+              : (comments.length > 0 
+                  ? <>Pokaż <span style={{ color: '#1f6feb' }}>{comments.length}</span> komentarze</> 
+                  : 'Brak komentarzy')}
           </p>
     
           {postVisible && (

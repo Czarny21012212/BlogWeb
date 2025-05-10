@@ -37,7 +37,7 @@ function CommentsReplies({ CommentId }) {
             console.error('Error:', error);
         });
 
-    }, []);
+    }, [CommentId]);
 
     const changeVisibility = () => {
         setCommentsRepliesVisible(!commentsRepliesVisible);

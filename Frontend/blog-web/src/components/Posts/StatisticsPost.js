@@ -56,7 +56,7 @@ function StatisticsPost({ postId }) {
         .catch(error => {
             console.error('Error:', error);
         });
-    });
+    }, [postId]);
 
 
   return (

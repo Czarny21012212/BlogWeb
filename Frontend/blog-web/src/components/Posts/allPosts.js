@@ -6,6 +6,9 @@ import Comments from './comments';
 function AllPosts() {
 
     const [posts, setPosts] = useState([]);
+    const [page, setPage] = useState(0);
+    const [hasMore, setHasMore] = useState(true);
+    const pageSize = 10;
 
     useEffect(() => {
         fetch('http://localhost:8082/api/all-post', {
@@ -27,8 +30,14 @@ function AllPosts() {
         })
         .catch(error => {
             console.error('Error:', error);
-        },  []);
+        },  [page]);
     });
+
+    const handleScroll = ({ scrollOffset, scrollHeight, clientHeight }) => {
+    if (scrollOffset + clientHeight >= scrollHeight - 50 && hasMore) {
+      setPage((prev) => prev + 1);
+    }
+  };
 
   return (
    <div className="posts-container">
