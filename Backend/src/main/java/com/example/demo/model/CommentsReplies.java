@@ -16,9 +16,20 @@ public class CommentsReplies {
     @JoinColumn(name = "comment_id")
     private Comments comments;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
     public CommentsReplies(String content, String publicationDate) {
         this.content = content;
         this.publicationDate = publicationDate;
+    }
+
+    public User getUser() {
+        return user;
+    }
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public void setComments(Comments comments) {

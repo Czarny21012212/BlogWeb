@@ -1,11 +1,13 @@
 package com.example.demo.Controller;
 
+import com.example.demo.Repository.UserRepository;
 import com.example.demo.Service.CommentsRepliesService;
 import com.example.demo.Service.CommentsService;
 import com.example.demo.Service.PostService;
 import com.example.demo.model.Comments;
 import com.example.demo.model.CommentsReplies;
 import com.example.demo.model.Post;
+import com.example.demo.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,12 +26,14 @@ import java.util.stream.Collectors;
 public class CommentsRepliesController {
     private final CommentsRepliesService commentsRepliesService;
     private final CommentsService commentsService;
+    private final UserRepository userRepository;
 
     @Autowired
-    public CommentsRepliesController(CommentsRepliesService service, PostService postService, CommentsService commentsService) {
+    public CommentsRepliesController(CommentsRepliesService service, PostService postService, CommentsService commentsService, UserRepository userRepository) {
         this.commentsRepliesService = service;
 
         this.commentsService = commentsService;
+        this.userRepository = userRepository;
     }
 
     @PostMapping("/comments-replies")
@@ -43,12 +47,14 @@ public class CommentsRepliesController {
                 response.put("status", "error");
                 return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
             }
+            User user = userRepository.findByEmail(authentication.getName()).get();
 
             Comments comments = commentsService.findById(Long.valueOf((Integer) commentData.get("comment_id")));
 
             if(comments!=null){
                 CommentsReplies commentsReplies = new CommentsReplies((String)commentData.get("content"), (String)commentData.get("publicationDate"));
                 commentsReplies.setComments(comments);
+                commentsReplies.setUser(user);
                 commentsRepliesService.save(commentsReplies);
 
                 response.put("status", "success");
@@ -76,7 +82,7 @@ public class CommentsRepliesController {
                         Map<String, Object> map = new HashMap<>();
                         map.put("content", commentReplies.getContent());
                         map.put("publicationDate", commentReplies.getPublicationDate());
-                        map.put("userName", commentReplies.getComments().getPost().getUser().getProfile().getUserName());
+                        map.put("userName", commentReplies.getUser().getProfile().getUserName());
                         return map;
                     })
                     .collect(Collectors.toList());
