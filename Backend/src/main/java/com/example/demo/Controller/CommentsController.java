@@ -4,6 +4,7 @@ import com.example.demo.Service.CommentsService;
 import com.example.demo.Service.PostService;
 import com.example.demo.model.Comments;
 import com.example.demo.model.Post;
+import com.example.demo.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -72,6 +73,12 @@ public class CommentsController {
     @PostMapping("/showCommetns")
     public List<Map<String, Object>> showComments(@RequestBody Map<String, Long> postData) {
         Map<String, String> response = new HashMap<>();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(authentication==null){
+            response.put("status", "error");
+        }
+        authentication.getName();
+        User user = (User) authentication.getPrincipal();
 
         try{
             Long postId = postData.get("post_id");
@@ -82,9 +89,10 @@ public class CommentsController {
                 return comments.stream()
                         .map(comment -> {
                             Map<String, Object> commentMap = new HashMap<>();
+                            commentMap.put("comment_Id", comment.getId());
                             commentMap.put("content", comment.getContent());
                             commentMap.put("publicationDate", comment.getPublicationDate());
-                            commentMap.put("userName", comment.getPost().getUser().getProfile().getUserName());
+                            commentMap.put("userName", comment.);
                             return commentMap;
                         })
                         .collect(Collectors.toList());

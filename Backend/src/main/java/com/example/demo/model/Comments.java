@@ -17,6 +17,10 @@ public class Comments {
     @JoinColumn(name = "post_id")
     private Post post;
 
+    @ManyToOne
+    @JoinColumn(name= "user_id")
+    private User user;
+
     @OneToMany(mappedBy = "comments", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CommentsReplies> commentsReplies;
 

@@ -28,6 +28,8 @@ public class User {
     @OneToOne(mappedBy = "user")
     private Profile profile;
 
+    @OneToMany(mappedBy = "user")
+    private Comments comments;
 
     public User(String email, String password){
         this.email = email;

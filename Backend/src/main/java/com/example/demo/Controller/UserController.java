@@ -262,4 +262,23 @@ public class UserController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/infoAboutProfile")
+    public List<Map<String, Object>> infoAboutProfile(){
+        List<Map<String, Object>> response = new ArrayList<>();
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated() || authentication.getPrincipal().equals("anonymousUser")) {
+            return null;
+        }
+        User user = userService.findByEmail(authentication.getName()).get();
+
+        Map<String, Object> UserData = new HashMap<>();
+        UserData.put("id", user.getId());
+        UserData.put("email", user.getEmail());
+        UserData.put("userName", user.getProfile().getUserName());
+        response.add(UserData);
+
+        return response;
+    }
+
 }
