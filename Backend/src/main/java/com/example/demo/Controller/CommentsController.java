@@ -1,5 +1,6 @@
 package com.example.demo.Controller;
 
+import com.example.demo.Repository.UserRepository;
 import com.example.demo.Service.CommentsService;
 import com.example.demo.Service.PostService;
 import com.example.demo.model.Comments;
@@ -24,11 +25,13 @@ import java.util.stream.Collectors;
 public class CommentsController {
     private final CommentsService commentsService;
     private final PostService postService;
+    private final UserRepository userRepository;
 
     @Autowired
-    public CommentsController(CommentsService commentsService, PostService postService) {
+    public CommentsController(CommentsService commentsService, PostService postService, UserRepository userRepository) {
         this.commentsService = commentsService;
         this.postService = postService;
+        this.userRepository = userRepository;
     }
 
     @PostMapping("/comment")
@@ -42,6 +45,8 @@ public class CommentsController {
             return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
         }
 
+        User user = userRepository.findByEmail(authentication.getName()).get();
+
         try {
 
             Optional<Post> post = postService.findById(Long.valueOf((Integer) commentData.get("post_id")));
@@ -49,6 +54,7 @@ public class CommentsController {
             if(post.isPresent()){
                 Comments comment = new Comments((String) commentData.get("content"), (String) commentData.get("publicationDate"));
                 comment.setPost(post.get());
+                comment.setUser(user);
 
                 commentsService.save(comment);
                 response.put("status", "success");
@@ -78,7 +84,7 @@ public class CommentsController {
             response.put("status", "error");
         }
         authentication.getName();
-        User user = (User) authentication.getPrincipal();
+        User user = userRepository.findByEmail(authentication.getName()).get();
 
         try{
             Long postId = postData.get("post_id");
@@ -92,7 +98,7 @@ public class CommentsController {
                             commentMap.put("comment_Id", comment.getId());
                             commentMap.put("content", comment.getContent());
                             commentMap.put("publicationDate", comment.getPublicationDate());
-                            commentMap.put("userName", comment.);
+                            commentMap.put("userName", comment.getUser().getProfile().getUserName());
                             return commentMap;
                         })
                         .collect(Collectors.toList());

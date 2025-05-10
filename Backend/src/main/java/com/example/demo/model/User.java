@@ -29,7 +29,7 @@ public class User {
     private Profile profile;
 
     @OneToMany(mappedBy = "user")
-    private Comments comments;
+    private List<Comments> comments;
 
     public User(String email, String password){
         this.email = email;
