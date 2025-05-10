@@ -1,6 +1,6 @@
 import  { use, useEffect, useState } from 'react';
 import { Send } from 'lucide-react';
-import '../Home/home.css';
+import '../../Home/home.css';
 import CommentsReplies from './commentReplies';
 
 function Comments({ postId }) {

@@ -1,5 +1,5 @@
 import  { useEffect, useState } from 'react';
-import '../Home/home.css';
+import '../../Home/home.css';
 import StatisticsPost from './StatisticsPost';
 import Comments from './comments';
 
@@ -31,24 +31,19 @@ function AllPosts() {
     });
 
   return (
-   <>
    <div className="posts-container">
-    {posts.map((post) => (
-        <div className="post" key={post.id}>
-        <div className="post-header">
-            <h2 className="post-title">{post.title}</h2>
-            <span className="post-author">@{post.author}</span>
+            {posts.map((post) => (
+                <div className="post" key={post.id}>
+                    <div className="post-header">
+                        <h2 className="post-title">{post.title}</h2>
+                        <span className="post-author">@{post.author}</span>
+                    </div>
+                    <p className="post-content">{post.content}</p>
+                    <StatisticsPost postId={post.id} />
+                    <Comments postId={post.id} />
+                </div>
+            ))}
         </div>
-        <p className="post-content">{post.content}</p>
-
-        <StatisticsPost postId={post.id}></StatisticsPost>
-        <Comments postId={post.id}></Comments>
-        </div>
-    ))}
-    </div>
-
-    
-   </>
   );
 }
 

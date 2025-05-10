@@ -1,5 +1,5 @@
 import React, { use, useEffect, useState } from 'react';
-import '../Home/home.css';
+import '../../Home/home.css';
 import { Send } from 'lucide-react';
 
 
@@ -49,22 +49,27 @@ function CommentsReplies({ CommentId }) {
         const betweenDates = Math.floor((NowDate - date) / 1000 );
 
         if(betweenDates < 3600) {
-          const minutes = Math.floor(betweenDates / 60);
-          return `${minutes} minuts ago`;  
-        }else if(betweenDates > 3600 && betweenDates < 86400) {
-            const hours = Math.floor(betweenDates / 3600);
-            return `${hours} hours ago`;
-        }else if(betweenDates > 86400 && betweenDates < 2592000) {
-            const days = Math.floor(betweenDates / 86400);
-            return `${days} days ago`;
-        }
-        else if(betweenDates > 2592000 && betweenDates < 31536000) {
-            const months = Math.floor(betweenDates / 2592000);
-            return `${months} months ago`;
-        }else {
-            const years = Math.floor(betweenDates / 31536000);
-            return `${years} years ago`;
-        }
+            const minutes = Math.floor(betweenDates / 60);
+            if (minutes === 0) {
+              return `Now`;
+            }else if (minutes === 1) {
+              return `1 minute ago`;
+            }
+            return `${minutes} minuts ago`;  
+          }else if(betweenDates > 3600 && betweenDates < 86400) {
+              const hours = Math.floor(betweenDates / 3600);
+              return `${hours} hours ago`;
+          }else if(betweenDates > 86400 && betweenDates < 2592000) {
+              const days = Math.floor(betweenDates / 86400);
+              return `${days} days ago`;
+          }
+          else if(betweenDates > 2592000 && betweenDates < 31536000) {
+              const months = Math.floor(betweenDates / 2592000);
+              return `${months} months ago`;
+          }else {
+              const years = Math.floor(betweenDates / 31536000);
+              return `${years} years ago`;
+          }
     }   
 
     const [yourCommentReply, setYourCommentReply] = useState({

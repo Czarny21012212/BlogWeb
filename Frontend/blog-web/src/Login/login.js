@@ -48,65 +48,68 @@ function Login() {
         .catch(error => {
             console.error('Error:', error);
         });
-
     }
 
-  return (
-    <div className='all-container'>
+    return (
+    <div className="all-container">
+        <div className="login-wrapper">
+        <div className="icon-container"></div>
         <div className="login-container">
-        <h1 className="blog-title">BlogWeb</h1>
-        <h1>Login</h1>
-        <div className="login-form">
-        <label htmlFor="username">Username</label>
-        <input 
-            type="text" 
-            id="username" 
-            name="email" 
-            placeholder="Enter your username"
-            onChange={e => setLoginData({...loginData, [e.target.name]: e.target.value})} 
-            required 
-        />
-        
-        <label htmlFor="password">Password</label>
-        <div className="password-input-wrapper">
-            <input 
-            type={showPassword ? "text" : "password"} 
-            id="password" 
-            name="password" 
-            placeholder="Enter your password"
-            onChange={e => setLoginData({...loginData, [e.target.name]: e.target.value})}
-            required 
+            <h1>Login</h1>
+            <form className="login-form" onSubmit={checkLogin}>
+            <label htmlFor="username">Username</label>
+            <input
+                type="text"
+                id="username"
+                name="email"
+                placeholder="Enter your username"
+                className="input-wrapper"
+                onChange={(e) => setLoginData({ ...loginData, [e.target.name]: e.target.value })}
+                required
             />
-            <button 
-            type="button" 
-            className="toggle-password" 
-            onClick={() => setShowPassword(!showPassword)}
-            >
-            {showPassword ? 'Hide' : 'Show'}
-            </button>
-        </div>
-        
-        <div className="form-options">
-            <div className="remember-me">
-            <input type="checkbox" id="remember" />
-            <label htmlFor="remember">Remember me</label>
+
+            <label htmlFor="password">Password</label>
+            <div className="password-input-wrapper">
+                <input
+                type={showPassword ? "text" : "password"}
+                id="password"
+                name="password"
+                className="input-wrapper"
+                placeholder="Enter your password"
+                onChange={(e) => setLoginData({ ...loginData, [e.target.name]: e.target.value })}
+                required
+                />
+                <button
+                type="button"
+                className="toggle-password"
+                onClick={() => setShowPassword(!showPassword)}
+                >
+                {showPassword ? "Hide" : "Show"}
+                </button>
             </div>
-            <a className="forgot-password">Forgot password?</a>
-        </div>
-        
-        <button type="submit" onClick={checkLogin}>Login</button>
-        
-        {message && <p className={message === 'success' ? 'success-message' : 'error-message'}>{message}</p>}
-        
-        <div className="divider">or</div>
-        
-        <div className="signup-link">
-            Don't have an account? <a href="/register">Sign up</a>
+
+            <div className="form-options">
+                <div className="remember-me">
+                <input type="checkbox" id="remember" />
+                <label htmlFor="remember">Remember me</label>
+                </div>
+                <a className="forgot-password">Forgot password?</a>
+            </div>
+
+            <button type="submit">Login</button>
+
+            {message && <p className={message === "success" ? "success-message" : "error-message"}>{message}</p>}
+
+            <div className="divider">or</div>
+
+            <div className="signup-link">
+                Don't have an account? <a href="/register">Sign up</a>
+            </div>
+            </form>
         </div>
         </div>
     </div>
-    </div>
-  );
+    );
 }
 
 export default Login;

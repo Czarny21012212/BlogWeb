@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import '../Home/home.css';
+import '../../Home/home.css';
 
 function StatisticsPost({ postId }) {
 
