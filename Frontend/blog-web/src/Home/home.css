@@ -40,13 +40,21 @@ body {
   height: 100vh;
   overflow: hidden;
 }
-
+.Home-create-posts{
+  background-color: var(--bg-secondary);
+  width: 15vw;
+  margin-left: 5vh;
+  border-radius: 12px;
+  height: 20vh;
+}
 /* Fixed user panel on the left side */
 .user-panel {
+  display: flex;
+  justify-content: left;
   position: fixed;
   top: 0;
   left: 0;
-  width: 20vw;
+  width: 15vw;
   max-width: 300px;
   margin: 5vh;
   background-color: var(--bg-secondary);
@@ -57,9 +65,8 @@ body {
   
 }
 
-/* Main content area with posts */
 .all-posts {
-  margin-left: calc(30vw + 10px);
+  margin-left: calc(15vw - 50px);
   margin-top: 5vh;
   width: calc(40vw - 10px);
   height: 100vh;
@@ -68,6 +75,7 @@ body {
   padding-bottom: 60px;
   scrollbar-width: thin; /* Firefox: Thin scrollbar */
   scrollbar-color: var(--border-color) var(--bg-primary);
+  z-index: 10;
 }
 
 .posts-container {
@@ -76,6 +84,7 @@ body {
   width: 100%;
   max-width: 600px;
   margin: 0 auto;
+  z-index: 10;
 }
 
 /* Twitter-like post styling */
@@ -87,6 +96,7 @@ body {
   margin: var(--spacing-sm);
   border-radius: 12px;
   box-shadow: 0 1px 10px rgba(0, 0, 0, 0.034);
+  z-index: 10;
 }
 
 /* Post header with avatar and name */
@@ -95,6 +105,7 @@ body {
   justify-content: space-between;
   align-items: flex-start;
   margin-bottom: var(--spacing-sm);
+  z-index: 10;
 }
 
 .post-title {

@@ -35,7 +35,7 @@ function Comments({ postId }) {
         .catch(error => {
             console.error('Error:', error);
         });
-    }, []);
+    }, [postId]);
 
     const handleShowComments = () => {
         setPostVisible(!postVisible);
@@ -142,7 +142,7 @@ function Comments({ postId }) {
             {postVisible 
               ? 'Ukryj komentarze' 
               : (comments.length > 0 
-                  ? <>Pokaż <span style={{ color: '#1f6feb' }}>{comments.length}</span> komentarze</> 
+                  ? <>Pokaż <span >{comments.length}</span> komentarze</> 
                   : 'Brak komentarzy')}
           </p>
     

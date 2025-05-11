@@ -1,0 +1,51 @@
+.create-posts {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 15vw;
+    height: 10vh;
+    margin: 18vh 5vh;
+    border-radius: 12px;
+    box-shadow: 0 1px 10px rgba(0, 0, 0, 0.034);
+    padding-right: 20px; 
+}
+
+.create-posts-title {
+    padding: 12px 24px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #ffffff;
+    background-color: #1e88e5;
+    margin-left: -9vw;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+
+.create-posts-title:focus {
+    padding: 11px 24px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #ffffff;
+    background-color: #1e88e5;
+    margin-left: -9vw;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+.create-posts-title:hover {
+    background-color: #1565c0;
+}
+
+.create-posts-container{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(200%, -20%);
+    z-index: 1000;
+}
