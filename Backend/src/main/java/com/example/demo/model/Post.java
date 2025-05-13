@@ -24,9 +24,8 @@ public class Post {
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comments> comments;
 
-    public Post(String title, String author, String content) {
+    public Post(String title, String content) {
         this.title = title;
-        this.author = author;
         this.content = content;
     }
 

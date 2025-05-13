@@ -116,6 +116,7 @@ public class UserController {
 
             String email = authentication.getName();
             User user = userService.findByEmail(email).get();
+            post.setAuthor(user.getProfile().getUserName());
             post.setUser(user);
             postService.save(post);
             Like like = new Like(0);
