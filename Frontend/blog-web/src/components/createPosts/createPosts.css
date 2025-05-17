@@ -113,6 +113,7 @@
 .create-posts-textarea {
   resize: vertical;
   min-height: 120px;
+  max-height: 300px;
   border-bottom: none;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }

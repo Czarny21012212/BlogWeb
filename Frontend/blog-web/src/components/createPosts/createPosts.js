@@ -15,7 +15,8 @@ function CreatePosts() {
 
   const [postData, setPostData] = useState({
     title: "",
-    content: ""
+    content: "",
+    publicationDate: new Date().toISOString(),
   })
 
   const validatePostData = (e) => {
@@ -56,15 +57,13 @@ function CreatePosts() {
         title: "",
         content: ""
       });
+      setShow(false)
     })
     .catch((error) => {
       console.error('Error:', error);
       setMessage("Error creating post");
     });
   }
-
-
-
 
   return (
     <>
