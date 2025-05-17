@@ -146,6 +146,7 @@ public class UserController {
             postData.put("content", post.getContent());
             postData.put("author", post.getAuthor());
             postData.put("title", post.getTitle());
+            postData.put("publicationDate", post.getPublicationDate());
             response.add(postData);
         }
         return ResponseEntity.ok(response);

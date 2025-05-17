@@ -13,6 +13,7 @@ public class Post {
     private String title;
     private String author;
     private String content;
+    private String publicationDate;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
@@ -24,9 +25,10 @@ public class Post {
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comments> comments;
 
-    public Post(String title, String content) {
+    public Post(String title, String content, String publicationDate) {
         this.title = title;
         this.content = content;
+        this.publicationDate = publicationDate;
     }
 
     public List<Comments> getComments() {return comments;}
@@ -67,5 +69,8 @@ public class Post {
     public void setContent(String content) {
         this.content = content;
     }
+
+    public String getPublicationDate() {return publicationDate;}
+    public void setPublicationDate(String publicationDate) {this.publicationDate = publicationDate;}
 
 }
