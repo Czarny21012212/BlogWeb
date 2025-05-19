@@ -1,48 +1,39 @@
-import  { useEffect, useState } from 'react';
-import '../../Home/home.css';
-import StatisticsPost from './StatisticsPost';
-import Comments from './comments';
+import React from 'react';
+import { useEffect, useState } from 'react'
+import StatisticsPost from '../Posts/StatisticsPost';
+import Comments from '../Posts/comments';
 
-function AllPosts() {
+
+
+function MyPosts() {
 
     const [posts, setPosts] = useState([]);
-    const [page, setPage] = useState(0);
-    const [hasMore, setHasMore] = useState(true);
-    const pageSize = 10;
 
     useEffect(() => {
-        fetch('http://localhost:8082/api/all-post', {
-            method: 'GET',
-            credentials: 'include',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-        .then(response => {
-            if (response.ok) {
-                return response.json();
-            } else {
-                throw new Error('Failed to fetch posts');
-            }
-        })
+
+    fetch('http://localhost:8082/api/my-posts', {
+    method: 'GET',
+    credentials: 'include',
+    headers: {
+        'Content-Type': 'application/json'
+    }
+    })
+    .then(response => {
+        if (response.ok) {
+        return response.json();
+        } else {
+        throw new Error('Failed to fetch posts');
+        }
+    })
         .then(data => {
             setPosts(data);
         })
         .catch(error => {
             console.error('Error:', error);
-        },  [page]);
+        })
     }, []);
 
-
-    const handleScroll = ({ scrollOffset, scrollHeight, clientHeight }) => {
-    if (scrollOffset + clientHeight >= scrollHeight - 50 && hasMore) {
-      setPage((prev) => prev + 1);
-    }
-    
-  };
-  console.log(posts)
-
-  const changeDateFormat = (dateString) => {
+    const changeDateFormat = (dateString) => {
         const date = new Date(dateString);
         const NowDate = new Date();
         const betweenDates = Math.floor((NowDate - date) / 1000 );
@@ -72,7 +63,6 @@ function AllPosts() {
 
     }   
 
-
   return (
    <div className="posts-container">
            {posts
@@ -93,4 +83,4 @@ function AllPosts() {
   );
 }
 
-export default AllPosts;
+export default MyPosts;

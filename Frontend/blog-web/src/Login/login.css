@@ -20,9 +20,6 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
   background-color: var(--bg-primary);
   color: var(--text-primary);
-  display: flex;
-  align-items: center;
-  justify-content: center;
   height: 100vh;
   overflow: hidden;
 }
@@ -32,6 +29,7 @@ body {
   justify-content: center;
   align-items: center;
   width: 100vw;
+  margin-top: 200px;
 }
 
 .login-wrapper {
@@ -135,10 +133,6 @@ button {
   cursor: pointer;
   transition: background-color 0.2s;
   margin-top: var(--spacing-sm);
-}
-
-button:hover {
- 
 }
 
 button:active {
