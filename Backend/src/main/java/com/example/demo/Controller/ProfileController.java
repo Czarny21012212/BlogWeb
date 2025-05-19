@@ -14,10 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -48,6 +45,9 @@ public class ProfileController {
 
         try{
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            if (authentication == null || !authentication.isAuthenticated() || authentication.getPrincipal().equals("anonymousUser")) {
+                return null;
+            }
             String email = authentication.getName();
             Optional<User> user = userService.findByEmail(email);
 
@@ -86,6 +86,24 @@ public class ProfileController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/countOfFollowers")
+    public ResponseEntity<Map<String, Integer>> showCountOfFollows() {
+        Map<String, Integer> response = new HashMap<>();
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated() || authentication.getPrincipal().equals("anonymousUser")) {
+            return null;
+        }
+
+        User user = userService.findByEmail(authentication.getName()).get();
+        if(user != null){
+            int countOfFollows = user.getProfile().getStatistics().getFollowers();
+            response.put("countOfFollows", countOfFollows);
+        }else{
+            return null;
+        }
+        return ResponseEntity.ok(response);
+    }
 
 
 

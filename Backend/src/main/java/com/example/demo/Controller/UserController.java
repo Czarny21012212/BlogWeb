@@ -152,7 +152,7 @@ public class UserController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/my-post")
+    @GetMapping("/my-posts")
     public List<Map<String, Object>> myPost(HttpServletRequest request) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || !authentication.isAuthenticated() || authentication.getPrincipal().equals("anonymousUser")) {
@@ -168,6 +168,7 @@ public class UserController {
             postData.put("title", post.getTitle());
             postData.put("author", post.getAuthor());
             postData.put("content", post.getContent());
+            postData.put("publicationDate", post.getPublicationDate());
             response.add(postData);
         }
         return response;
