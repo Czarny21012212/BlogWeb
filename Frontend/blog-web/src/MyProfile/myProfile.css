@@ -4,23 +4,24 @@
   display: flex;
   justify-content: center;
   width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
   background-color: var(--bg-primary);
+  padding: var(--spacing-md) 0;
 }
 
 .myProfile {
-  max-width: 600px;
+  max-width: 700px;
   width: 100%;
   margin: 0 auto;
-  padding: var(--spacing-md);
+  padding: var(--spacing-lg);
   background-color: var(--bg-primary);
   color: var(--text-primary);
   font-family: 'Open Sans', sans-serif;
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-height: 80vh;
   box-sizing: border-box;
+  gap: var(--spacing-lg);
 }
 
 .myProfile__header {
@@ -28,32 +29,49 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
-  margin-bottom: var(--spacing-md);
+  width: 100%;
 }
 
 .myProfile__avatar {
   color: var(--text-tertiary);
   margin-bottom: var(--spacing-sm);
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
+  transition: transform 0.3s ease;
+}
+
+.myProfile__avatar:hover {
+  transform: scale(1.05);
 }
 
 .myProfile__username {
-  font-size: 1.8rem;
-  font-weight: 600;
-  margin: 0;
+  font-size: 2rem;
+  font-weight: 700;
+  margin: var(--spacing-sm) 0 0;
   color: var(--text-primary);
+  letter-spacing: -0.01em;
 }
 
 .myProfile__bio {
   text-align: center;
-  margin-bottom: var(--spacing-lg);
-  width: 100%;
+  width: 90%;
+  max-width: 500px;
+  background-color: var(--bg-secondary);
+  border-radius: 16px;
+  padding: var(--spacing-md) var(--spacing-lg);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease;
+}
+
+.myProfile__bio:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
 }
 
 .myProfile__bio-text {
-  font-size: 0.95rem;
+  font-size: 1rem;
   color: var(--text-secondary);
-  margin: 0 0 var(--spacing-sm);
-  line-height: 1.4;
+  margin: 0;
+  line-height: 1.6;
   max-width: 100%;
   word-wrap: break-word;
 }
@@ -62,15 +80,16 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: var(--spacing-sm);
-  font-size: 0.85rem;
+  gap: var(--spacing-md);
+  font-size: 0.9rem;
   color: var(--text-tertiary);
+  margin-top: var(--spacing-md);
 }
 
 .myProfile__bio-item {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
 }
 
 .myProfile__bio-icon {
@@ -80,6 +99,7 @@
 .myProfile__bio-link {
   color: var(--accent-color);
   text-decoration: none;
+  transition: color 0.2s ease;
 }
 
 .myProfile__bio-link:hover {
@@ -89,67 +109,112 @@
 
 .myProfile__stats {
   display: flex;
-  justify-content: space-around;
-  margin-bottom: var(--spacing-lg);
-  padding: var(--spacing-md);
+  justify-content: space-between;
+  margin: var(--spacing-md) 0;
+  padding: var(--spacing-lg);
   background-color: var(--bg-secondary);
-  border-radius: 12px;
-  box-shadow: 0 1px 10px rgba(0, 0, 0, 0.034);
+  border-radius: 16px;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
   width: 100%;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.myProfile__stats:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
 
 .myProfile__stat {
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  padding: var(--spacing-sm);
+  position: relative;
+}
+
+.myProfile__stat:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 15%;
+  height: 70%;
+  width: 1px;
+  background-color: var(--text-tertiary);
+  opacity: 0.2;
 }
 
 .myProfile__stat-value {
   display: block;
-  font-size: 1.4rem;
-  font-weight: bold;
+  font-size: 1.8rem;
+  font-weight: 700;
   color: var(--text-primary);
+  margin-bottom: 2px;
 }
 
 .myProfile__stat-label {
   font-size: 0.9rem;
   color: var(--text-tertiary);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .myProfile__posts {
-  margin-top: var(--spacing-lg);
+  margin-top: var(--spacing-md);
   width: 100%;
 }
 
 .myProfile__posts h2 {
   font-size: 1.6rem;
-  font-weight: 600;
-  margin-bottom: var(--spacing-md);
+  font-weight: 700;
+  margin-bottom: var(--spacing-lg);
   color: var(--text-primary);
+  position: relative;
+  padding-bottom: var(--spacing-xs);
+}
+
+.myProfile__posts h2::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 60px;
+  height: 3px;
+  background-color: var(--accent-color);
+  border-radius: 2px;
 }
 
 .myProfile__posts-list {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-sm);
+  gap: var(--spacing-md);
 }
 
 .myProfile__post {
   background-color: var(--bg-secondary);
-  padding: var(--spacing-md) var(--spacing-lg);
-  margin: var(--spacing-sm) 0;
-  border-radius: 12px;
-  box-shadow: 0 1px 10px rgba(0, 0, 0, 0.034);
+  padding: var(--spacing-lg);
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.myProfile__post:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
 }
 
 .myProfile__post-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: var(--spacing-sm);
+  margin-bottom: var(--spacing-md);
 }
 
 .myProfile__post-title {
-  font-size: 1.1rem;
-  font-weight: bold;
+  font-size: 1.2rem;
+  font-weight: 700;
   color: var(--text-primary);
   margin: 0;
 }
@@ -157,32 +222,36 @@
 .myProfile__post-date {
   font-size: 0.85rem;
   color: var(--text-tertiary);
+  background-color: var(--bg-primary);
+  padding: 4px 10px;
+  border-radius: 12px;
 }
 
 .myProfile__post-content {
-  font-size: 0.95rem;
-  color: var(--text-primary);
-  line-height: 1.4;
+  font-size: 1rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
   margin: var(--spacing-md) 0;
   word-wrap: break-word;
 }
 
-/* Responsywność */
+/* Responsiveness */
 @media (max-width: 768px) {
   .myProfile-container {
-    padding: var(--spacing-sm);
-    margin-top: 0;
+    padding: var(--spacing-xs);
   }
 
   .myProfile {
-    margin: var(--spacing-md);
-    padding: var(--spacing-sm);
-    min-height: auto;
+    padding: var(--spacing-md);
+    gap: var(--spacing-md);
   }
 
   .myProfile__stats {
-    flex-direction: column;
-    gap: var(--spacing-sm);
+    padding: var(--spacing-md);
+  }
+
+  .myProfile__stat-value {
+    font-size: 1.5rem;
   }
 
   .myProfile__avatar {
@@ -190,17 +259,12 @@
   }
 
   .myProfile__username {
-    font-size: 1.5rem;
+    font-size: 1.6rem;
   }
 
   .myProfile__bio-text {
-    font-size: 0.9rem;
-  }
-
-  .myProfile__bio-details {
-    font-size: 0.8rem;
-    flex-direction: column;
-    gap: var(--spacing-xs);
+    font-size: 0.95rem;
+    line-height: 1.5;
   }
 
   .myProfile__posts h2 {
@@ -209,15 +273,37 @@
 }
 
 @media (max-width: 480px) {
-  .myProfile__post {
-    padding: var(--spacing-md);
+  .myProfile {
+    padding: var(--spacing-sm);
+  }
+  
+  .myProfile__stats {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: var(--spacing-xs);
+  }
+  
+  .myProfile__stat {
+    padding: var(--spacing-xs) var(--spacing-sm);
+  }
+  
+  .myProfile__stat:not(:last-child)::after {
+    display: none;
   }
 
   .myProfile__stat-value {
-    font-size: 1.2rem;
+    font-size: 1.3rem;
   }
 
   .myProfile__stat-label {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
+  }
+  
+  .myProfile__post {
+    padding: var(--spacing-md);
+  }
+  
+  .myProfile__bio {
+    padding: var(--spacing-sm) var(--spacing-md);
   }
 }

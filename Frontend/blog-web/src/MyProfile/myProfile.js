@@ -1,5 +1,5 @@
 import './myProfile.css';
-import { UserCircle, MapPin, Link, Calendar } from 'lucide-react';
+import { UserCircle, Award, Heart, Users } from 'lucide-react';
 import React from 'react';
 import { useEffect, useState } from 'react';
 
@@ -82,49 +82,82 @@ function MyProfile() {
         return response.json();
       })
       .then((data) => {
-        setFollowers(data);
+        setFollowers(data.countOfFollows);
       })
       .catch((error) => {
         console.error('Error:', error);
       });
   }, []);
 
+  //function to show data about profile
+  const [userData, setUserData] = useState([]);
+  console.log(userData.userName);
+  
+    useEffect(() => {
+        fetch("http://localhost:8082/api/infoAboutProfile", {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: 'include'
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                throw new Error('Failed to fetch user panel data');
+            }
+        })
+        .then(data => {
+            setUserData(data[0]);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }, []);
 
-  return (
-    <div className="myProfile-container">
-      <div className="myProfile">
-        <div className="myProfile__header">
-          <UserCircle className="myProfile__avatar" size={100} />
-          <h1 className="myProfile__username">Jan Kowalski</h1>
+
+ return (
+        <div className="myProfile-container">
+            <div className="myProfile">
+                <div className="myProfile__header">
+                    <UserCircle className="myProfile__avatar" size={120} />
+                    <h1 className="myProfile__username">{userData.userName || 'Loading...'}</h1>
+                </div>
+                
+                <div className="myProfile__bio">
+                    <p className="myProfile__bio-text">
+                        Technology and coffee enthusiast. I build apps and share knowledge about React! 🚀
+                    </p>
+                </div>
+                
+                <div className="myProfile__stats">
+                    <div className="myProfile__stat">
+                        <Award size={20} className="myProfile__stat-icon" />
+                        <span className="myProfile__stat-value">{posts.length}</span>
+                        <span className="myProfile__stat-label">Posts</span>
+                    </div>
+                    <div className="myProfile__stat">
+                        <Heart size={20} className="myProfile__stat-icon" />
+                        <span className="myProfile__stat-value">{likes}</span>
+                        <span className="myProfile__stat-label">Likes</span>
+                    </div>
+                    <div className="myProfile__stat">
+                        <Users size={20} className="myProfile__stat-icon" />
+                        <span className="myProfile__stat-value">{followers}</span>
+                        <span className="myProfile__stat-label">Followers</span>
+                    </div>
+                </div>
+                
+                <div className="myProfile__posts">
+                    <h2>Your posts</h2>
+                    <div className="myProfile__posts-list">
+                        <MyPosts />
+                    </div>
+                </div>
+            </div>
         </div>
-        <div className="myProfile__bio">
-          <p className="myProfile__bio-text">
-            Entuzjasta technologii i kawy. Tworzę aplikacje i dzielę się wiedzą o React! 🚀
-          </p>
-        </div>
-        <div className="myProfile__stats">
-          <div className="myProfile__stat">
-            <span className="myProfile__stat-value">{posts.length}</span>
-            <span className="myProfile__stat-label">Posty</span>
-          </div>
-          <div className="myProfile__stat">
-            <span className="myProfile__stat-value">{likes}</span>
-            <span className="myProfile__stat-label">Polubienia</span>
-          </div>
-          <div className="myProfile__stat">
-            <span className="myProfile__stat-value">{followers}</span>
-            <span className="myProfile__stat-label">Obserwujący</span>
-          </div>
-        </div>
-        <div className="myProfile__posts">
-          <h2>Twoje posty</h2>
-          <div className="myProfile__posts-list">
-            <MyPosts></MyPosts>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+    );
 }
 
 export default MyProfile;
