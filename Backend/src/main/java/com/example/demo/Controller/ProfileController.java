@@ -105,6 +105,23 @@ public class ProfileController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/bio")
+    public ResponseEntity<Map<String, String>> showBiography(){
+        Map<String, String> response = new HashMap<>();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated() || authentication.getPrincipal().equals("anonymousUser")) {
+            return null;
+        }
+        try{
+            User user = userService.findByEmail(authentication.getName()).get();
+            String Bio = user.getProfile().getBiography();
+            response.put("Bio", Bio);
+        }catch(Exception e){
+            response.put("Bio", "error: " + e.getMessage());
+        }
+        return ResponseEntity.ok(response);
+    }
+
 
 
 }

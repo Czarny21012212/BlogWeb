@@ -18,14 +18,16 @@ public class ProfileStatistics {
     private int countOfPosts;
 
     @OneToOne
-    @JoinColumn(name = "profile_id", nullable = false)
+    @JoinColumn(name = "profile_id", nullable = false, unique = true)
     private Profile profile;
 
-    public ProfileStatistics(int followers, int countOfLikes, int countOfPosts) {
-        this.followers = followers;
-        this.countOfLikes = countOfLikes;
-        this.countOfPosts = countOfPosts;
+    public ProfileStatistics(Profile profile) {
+        this.profile = profile;
+        this.followers = 0;
+        this.countOfLikes = 0;
+        this.countOfPosts = 0;
     }
+
     public Profile getProfile() {
         return profile;
     }

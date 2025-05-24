@@ -10,10 +10,11 @@ public class Profile {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String userName;
-    @Column(columnDefinition = "STRING DEFAULT NOTHING")
-    private String biography;
+    @Column(nullable = false)
+    private String biography = "";
 
-    @OneToOne(mappedBy = "profile")
+
+    @OneToOne(mappedBy = "profile", cascade = CascadeType.ALL)
     private ProfileStatistics statistics;
 
     @OneToOne(cascade = CascadeType.ALL)
@@ -25,6 +26,7 @@ public class Profile {
         this.userName = userName;
         this.biography = "";
     }
+
 
     public User getUser() {
         return user;
@@ -38,6 +40,9 @@ public class Profile {
     }
     public void setStatistics(ProfileStatistics statistics) {
         this.statistics = statistics;
+        if (statistics != null && statistics.getProfile() != this) {
+            statistics.setProfile(this);
+        }
     }
 
     public Long getId() {
