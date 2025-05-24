@@ -284,4 +284,15 @@ public class UserController {
         return response;
     }
 
+    @PostMapping("/logout")
+    public ResponseEntity<Map<String, String>> logout(HttpServletRequest request){
+        Map<String, String> response = new HashMap<>();
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate();
+        }
+        response.put("message", "succes");
+        return ResponseEntity.ok(response);
+    }
+
 }
