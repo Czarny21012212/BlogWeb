@@ -1,38 +1,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 
-:root {
-  --bg-primary: #080808;
-  --bg-secondary: #16181c;
-  --bg-modal: #000000;
-  --text-primary: #e7e9ea;
-  --text-secondary: #71767b;
-  --border-color: #2f3336;
-  --accent-color: #1d9bf0;
-  --accent-hover: #1a8cd8;
-  --radius: 16px;
-  --overlay-bg: rgba(39, 44, 48, 0.6);
-}
 
 /* Dark overlay for modal */
-.modal-overlay {
-  position: fixed;
-  z-index: 999;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-}
-
 .create-posts {
   display: flex;
   align-items: center;
+  z-index: 9999;
 }
 
 .create-posts-title {
   font-size: 1.1rem;
   font-weight: 600;
   color: #fff;
-  background-color: var(--bg-modal);
+  background-color:var(--accent-color);
   margin: 20px;
   width: 100%; 
   cursor: pointer;
@@ -48,9 +28,10 @@
   color: var(--text-primary);
   width: 95%;
   max-width: 600px;
-  border-radius: var(--radius);
+  z-index: 100;
+  border-radius: 20px;
   padding: 16px;
-  border: 1px solid var(--border-color);
+  box-shadow: 0px 0px 0px 1000px rgba(0, 0, 0, 0.897);
 }
 
 .create-posts-close {

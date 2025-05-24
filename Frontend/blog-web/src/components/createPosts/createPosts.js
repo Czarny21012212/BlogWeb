@@ -77,7 +77,6 @@ function CreatePosts() {
 
         {show && (
           <>
-            <div className="modal-overlay" onClick={() => setShow(false)}></div>
             <div className="create-posts-form">
               <button className="create-posts-close" onClick={() => setShow(false)}>
                 ✕
