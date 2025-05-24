@@ -1,6 +1,6 @@
 import './myProfile.css';
 import { UserCircle, Award, Heart, Users } from 'lucide-react';
-import React from 'react';
+import React, { use } from 'react';
 import { useEffect, useState } from 'react';
 
 import MyPosts from '../components/myPosts/myPosts';
@@ -116,6 +116,31 @@ function MyProfile() {
         });
     }, []);
 
+    const [bio, setBio] = useState("");
+
+    useEffect(() => {
+      fetch("http://localhost:8082/api/bio", {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        credentials: 'include'
+      })
+      .then(response => {
+          if (response.ok) {
+              return response.json();
+          } else {
+              throw new Error('Failed to fetch bio data');
+          }
+      })
+      .then(data => {
+          setBio(data.bio)
+      })
+      .then(error => {
+          console.error('Error:', error);
+      });
+    }, []);
+
 
  return (
         <div className="myProfile-container">
@@ -127,23 +152,20 @@ function MyProfile() {
                 
                 <div className="myProfile__bio">
                     <p className="myProfile__bio-text">
-                        Technology and coffee enthusiast. I build apps and share knowledge about React! 🚀
+                       {bio || 'This user has not set a bio yet.'}
                     </p>
                 </div>
                 
                 <div className="myProfile__stats">
                     <div className="myProfile__stat">
-                        <Award size={20} className="myProfile__stat-icon" />
                         <span className="myProfile__stat-value">{posts.length}</span>
                         <span className="myProfile__stat-label">Posts</span>
                     </div>
                     <div className="myProfile__stat">
-                        <Heart size={20} className="myProfile__stat-icon" />
                         <span className="myProfile__stat-value">{likes}</span>
                         <span className="myProfile__stat-label">Likes</span>
                     </div>
                     <div className="myProfile__stat">
-                        <Users size={20} className="myProfile__stat-icon" />
                         <span className="myProfile__stat-value">{followers}</span>
                         <span className="myProfile__stat-label">Followers</span>
                     </div>
