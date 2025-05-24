@@ -22,49 +22,52 @@
   align-items: center;
   box-sizing: border-box;
   gap: var(--spacing-lg);
+
 }
 
 .myProfile__header {
   display: flex;
-  flex-direction: column;
+  gap: var(--spacing-md);
+  justify-content: flex-start;
   align-items: center;
   text-align: center;
-  width: 100%;
+  width: 80%;
 }
 
 .myProfile__avatar {
-  color: var(--text-tertiary);
-  margin-bottom: var(--spacing-sm);
+  color: var(--text-secondary);
+
+  width: 80px;
   filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
   transition: transform 0.3s ease;
 }
-
-.myProfile__avatar:hover {
-  transform: scale(1.05);
+.myProfile__avatar-container{
+  display: flex;
+  align-items: center;
 }
 
 .myProfile__username {
   font-size: 2rem;
   font-weight: 700;
   margin: var(--spacing-sm) 0 0;
-  color: var(--text-primary);
+  color: var(--text-secondary);
   letter-spacing: -0.01em;
-}
 
+}
+.home-button{
+  position: fixed;
+  left: 50px;
+  top: 40px;
+  width: 50px;
+  height: 50px;
+  background-color: var(--bg-secondary);
+}
 .myProfile__bio {
-  text-align: center;
   width: 90%;
   max-width: 500px;
-  background-color: var(--bg-secondary);
   border-radius: 16px;
-  padding: var(--spacing-md) var(--spacing-lg);
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
   transition: transform 0.2s ease;
-}
-
-.myProfile__bio:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
 }
 
 .myProfile__bio-text {
@@ -102,26 +105,15 @@
   transition: color 0.2s ease;
 }
 
-.myProfile__bio-link:hover {
-  color: var(--accent-hover);
-  text-decoration: underline;
-}
 
 .myProfile__stats {
   display: flex;
-  justify-content: space-between;
-  margin: var(--spacing-md) 0;
-  padding: var(--spacing-lg);
-  background-color: var(--bg-secondary);
+  margin-left: -50px;
   border-radius: 16px;
   box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
-  width: 100%;
+  width: 90%;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
 
-.myProfile__stats:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
 
 .myProfile__stat {
@@ -142,41 +134,42 @@
   height: 70%;
   width: 1px;
   background-color: var(--text-tertiary);
-  opacity: 0.2;
+  opacity: 0.15;
 }
 
 .myProfile__stat-value {
-  display: block;
-  font-size: 1.8rem;
+  font-size: 1.2rem;
   font-weight: 700;
   color: var(--text-primary);
-  margin-bottom: 2px;
+  margin-bottom: 4px;
+  line-height: 1.1;
 }
 
 .myProfile__stat-label {
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   color: var(--text-tertiary);
-  font-weight: 500;
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.08em;
+  user-select: none;
 }
+
 
 .myProfile__posts {
   margin-top: var(--spacing-md);
   width: 100%;
 }
 
-.myProfile__posts h2 {
+.myProfile__posts-h2 {
   font-size: 1.6rem;
   font-weight: 700;
-  margin-bottom: var(--spacing-lg);
   color: var(--text-primary);
   position: relative;
   padding-bottom: var(--spacing-xs);
+  margin-left: 30px;
 }
 
 .myProfile__posts h2::after {
-  content: '';
   position: absolute;
   bottom: 0;
   left: 0;
@@ -221,7 +214,7 @@
 
 .myProfile__post-date {
   font-size: 0.85rem;
-  color: var(--text-tertiary);
+
   background-color: var(--bg-primary);
   padding: 4px 10px;
   border-radius: 12px;
@@ -230,7 +223,6 @@
 .myProfile__post-content {
   font-size: 1rem;
   color: var(--text-secondary);
-  line-height: 1.6;
   margin: var(--spacing-md) 0;
   word-wrap: break-word;
 }

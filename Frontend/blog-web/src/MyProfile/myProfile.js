@@ -142,44 +142,58 @@ function MyProfile() {
     }, []);
 
 
- return (
-        <div className="myProfile-container">
-            <div className="myProfile">
-                <div className="myProfile__header">
-                    <UserCircle className="myProfile__avatar" size={120} />
-                    <h1 className="myProfile__username">{userData.userName || 'Loading...'}</h1>
+return (
+    <div className="myProfile-container">
+        <button 
+            className="home-button"
+            onClick={() => window.location.href = 'http://localhost:3000/'}
+            aria-label="Go to home"
+        >
+            ←
+        </button>
+        
+        <div className="myProfile">
+            <div className="myProfile__header">
+                <div className="myProfile__avatar-container">
+                    <UserCircle className="myProfile__avatar" size={104} />
                 </div>
-                
-                <div className="myProfile__bio">
-                    <p className="myProfile__bio-text">
-                       {bio || 'This user has not set a bio yet.'}
-                    </p>
-                </div>
-                
-                <div className="myProfile__stats">
-                    <div className="myProfile__stat">
-                        <span className="myProfile__stat-value">{posts.length}</span>
-                        <span className="myProfile__stat-label">Posts</span>
-                    </div>
-                    <div className="myProfile__stat">
-                        <span className="myProfile__stat-value">{likes}</span>
-                        <span className="myProfile__stat-label">Likes</span>
-                    </div>
-                    <div className="myProfile__stat">
-                        <span className="myProfile__stat-value">{followers}</span>
-                        <span className="myProfile__stat-label">Followers</span>
-                    </div>
-                </div>
-                
-                <div className="myProfile__posts">
-                    <h2>Your posts</h2>
-                    <div className="myProfile__posts-list">
-                        <MyPosts />
+                <div className="myProfile__user-info">
+                    <div>
+                        <h1 className="myProfile__username">@{userData.userName || 'Loading...'}</h1>
                     </div>
                 </div>
             </div>
+            
+            <div className="myProfile__bio">
+                <p className="myProfile__bio-text">
+                   {bio || 'This user has not set a bio yet.'}
+                </p>
+            </div>
+            
+            <div className="myProfile__stats">
+                <div className="myProfile__stat">
+                    <span className="myProfile__stat-value">{posts.length}</span>
+                    <span className="myProfile__stat-label"> Posts</span>
+                </div>
+                <div className="myProfile__stat">
+                    <span className="myProfile__stat-value">{likes}</span>
+                    <span className="myProfile__stat-label"> Likes</span>
+                </div>
+                <div className="myProfile__stat">
+                    <span className="myProfile__stat-value">{followers}</span>
+                    <span className="myProfile__stat-label"> Followers</span>
+                </div>
+            </div>
+            
+            <div className="myProfile__posts">
+                <h2 className='myProfile__posts-h2'>Posts</h2>
+                <div className="myProfile__posts-list">
+                    <MyPosts />
+                </div>
+            </div>
         </div>
-    );
+    </div>
+);
 }
 
 export default MyProfile;

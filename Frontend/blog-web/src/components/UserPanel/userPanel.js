@@ -30,7 +30,7 @@ function UserPanel() {
     }, []);
   return (
    <>
-    <div className='user-panel'>
+    <div className='user-panel-all'>
       {userData.map((user) => (
         <div className='user-panel-container' key={user.id}>
             <div className='user-panel-header'>

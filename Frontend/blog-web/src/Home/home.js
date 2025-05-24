@@ -11,14 +11,16 @@ function Home() {
 
   return (
     <div className="home-container">
-      <div>
-        <div className="user-panel">
-          <UserPanel />
+        <div className="left-side">
+          <div className='user-panel'>
+            <UserPanel></UserPanel>
+          </div>
+          <div className='left-menu'> 
+            <div className='menu-create-post'>
+              <CreatePosts></CreatePosts>
+            </div>
+          </div>
         </div>
-        <div className="Home-create-posts">
-          <CreatePosts />
-        </div>
-      </div>
       <div className="all-posts">
         <AllPosts />
       </div>

@@ -1,6 +1,11 @@
 body{
     position: fixed;
 }
+.user-icon{
+    width: 30px;
+    height: 50px;
+
+}
 .user-panel-container{
     display: flex;
     flex-direction: column;
@@ -12,11 +17,11 @@ body{
     justify-content: left;
     gap: 10px;
     margin-bottom: 20px;
-    font-size: 1rem;
+    font-size: 1.1rem;
     
 }
 .user-email{
-    font-size: 0.8rem;
+    font-size: 0.9rem;
     color: #8899a6;
     margin-top: -25px;
 }
