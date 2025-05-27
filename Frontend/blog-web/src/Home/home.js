@@ -1,5 +1,5 @@
 import './home.css';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import AllPosts from '../components/Posts/allPosts';
 import UserPanel from '../components/UserPanel/userPanel';
 import CreatePosts from '../components/createPosts/createPosts';
@@ -9,9 +9,35 @@ import LogOut from '../components/logout/logout'
 
 function Home() {
 
+  const [check, setCheck] = useState(false)
+
+  useEffect(() => {
+    fetch('http://localhost:8082/api/checkAuthentication', {
+      method: "GET",
+      credentials: 'include'
+    })
+    .then((response => {
+      if(response.ok){
+        return response.json()
+      }else{
+        throw new Error('Failed to fetch comments');
+      }
+    }))
+    .then(data => {
+      setCheck(data)
+      console.log(data)
+    })
+    .catch(error => {
+      console.log(error)
+    })
+  }, [])
+
+
 
   return (
-    <div className="home-container">
+    <>
+    {check && 
+      <div className="home-container">
       <div className="left-side">
         <div className='user-panel'>
           <UserPanel></UserPanel>
@@ -29,6 +55,8 @@ function Home() {
         <AllPosts />
       </div>
     </div>
+    || <h1>Please Login</h1>}
+    </>
   );
 }
 
