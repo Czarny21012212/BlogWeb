@@ -143,6 +143,8 @@ public class UserController {
         for(Post post : posts ){
             Map<String, Object> postData = new HashMap<>();
             postData.put("id", postService.getPostId(post));
+            postData.put("email", post.getUser().getEmail());
+            postData.put("userId", post.getUser().getId());
             postData.put("content", post.getContent());
             postData.put("author", post.getAuthor());
             postData.put("title", post.getTitle());
@@ -294,5 +296,15 @@ public class UserController {
         response.put("message", "succes");
         return ResponseEntity.ok(response);
     }
+
+    @GetMapping("/checkAuthentication")
+    public boolean checkAuthentication() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return authentication != null &&
+                authentication.isAuthenticated() &&
+                !(authentication.getPrincipal() instanceof String &&
+                        authentication.getPrincipal().equals("anonymousUser"));
+    }
+
 
 }
