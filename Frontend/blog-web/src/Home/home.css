@@ -87,6 +87,34 @@ body {
   border-radius: 12px;
   box-shadow: 0 1px 10px rgba(0, 0, 0, 0.034);
 }
+/* User panel */
+.post-author-container{
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.follow-btn {
+  background-color: transparent;
+  color: white;
+  border: 1px solid #5e5e5e;
+  border-radius: 9999px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  height: 30px;
+  padding: 0px 10px;
+}
+
+.follow-btn:hover {
+  background-color: #3b3b3b;
+  border-color: #777;
+}
+
+.follow-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px #6b7280;
+}
 
 .user-panel{
   border-bottom: 1px solid rgba(255, 255, 255, 0.336);
@@ -145,6 +173,7 @@ body {
   font-size: 0.9rem;
   color: var(--text-tertiary);
   margin-left: var(--spacing-xs);
+  cursor: pointer;
 }
 
 .post-content {

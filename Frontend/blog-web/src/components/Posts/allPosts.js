@@ -26,7 +26,7 @@ function AllPosts() {
             }
         })
         .then(data => {
-            setPosts(data);
+          setPosts(data)
         })
         .catch(error => {
             console.error('Error:', error);
@@ -72,6 +72,34 @@ function AllPosts() {
 
     }   
 
+    const followUser = (userEmail) => {
+        fetch('http://localhost:8082/api/followUser', {
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ email: userEmail })
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                throw new Error('Failed to follow user');
+            }
+        })
+        .then(data => {
+            console.log('Followed user successfully:', data);
+        })
+        .catch(error => {
+            console.error('Error following user:', error);
+        });
+    }
+
+    const navigateToUserAccount = (userId) => {
+     window.location.href = `/userAccount/${userId}`;
+    }
+
 
   return (
    <div className="posts-container">
@@ -80,7 +108,10 @@ function AllPosts() {
             .map((post) => (
                 <div className="post" key={post.id}>
                     <div className="post-header">
-                        <span className="post-author">@{post.author}</span>
+                        <div className='post-author-container'>
+                            <span className="post-author" onClick={(e) => navigateToUserAccount(post.userId)}>@{post.author}</span>
+                            <button className="follow-btn" onClick={(e)=> followUser(post.email)}>Follow</button>
+                        </div>
                         <p className='post-date'>{changeDateFormat(post.publicationDate)}</p>
                     </div>
                     <h2 className="post-title">{post.title}</h2>

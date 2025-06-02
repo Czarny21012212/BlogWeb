@@ -28,9 +28,13 @@ function UserPanel() {
             console.error('Error:', error);
         });
     }, []);
+
+    const myAccount = () => {
+        window.location.href = '/my-Profile';
+    }
   return (
    <>
-    <div className='user-panel-all'>
+    <div className='user-panel-all' onClick={myAccount}>
       {userData.map((user) => (
         <div className='user-panel-container' key={user.id}>
             <div className='user-panel-header'>

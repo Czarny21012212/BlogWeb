@@ -2,6 +2,7 @@ import React from 'react';
 import { useEffect, useState } from 'react'
 import StatisticsPost from '../Posts/StatisticsPost';
 import Comments from '../Posts/comments';
+import userAccount from '../userAccount/userAccount';
 
 
 
@@ -62,7 +63,10 @@ function MyPosts() {
         }
 
     }   
-
+    const navigateToUserAccount = (userId) => {
+     window.location.href = `/user-account/${userId}`;
+     console.log(userId);
+    }
   return (
    <div className="posts-container">
            {posts
@@ -70,7 +74,7 @@ function MyPosts() {
             .map((post) => (
                 <div className="post" key={post.id}>
                     <div className="post-header">
-                        <span className="post-author">@{post.author}</span>
+                        <span className="post-author" onClick={(e) => navigateToUserAccount(post.userId)}>@{post.author}</span>
                         <p className='post-date'>{changeDateFormat(post.publicationDate)}</p>
                     </div>
                     <h2 className="post-title">{post.title}</h2>
