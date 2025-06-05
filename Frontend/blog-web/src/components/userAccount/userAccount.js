@@ -26,38 +26,38 @@ const UserAccount = () => {
     .then(data => {
       setPosts(data);
 
-              let total = 0;
-              let processed = 0;
+      let total = 0;
+      let processed = 0;
       
               // Fetch likes for each post
-              data.forEach((post) => {
-                fetch(`http://localhost:8082/api/countOfLikes`, {
-                  method: 'POST',
-                  credentials: 'include',
-                  headers: {
-                    'Content-Type': 'application/json',
-                  },
-                  body: JSON.stringify({ postId: post.id }),
-                })
-                  .then((res) => {
-                    if (!res.ok) throw new Error('Failed to fetch likes');
-                    return res.json();
-                  })
-                  .then((likeData) => {
-                    total += likeData.likes;
-                    processed++;
-                    if (processed === data.length) {
-                      setLikes(total);
-                    }
-                  })
-                  .catch((error) => {
-                    console.error(`Błąd pobierania lajków dla posta ${post.id}:`, error);
-                    processed++;
-                    if (processed === data.length) {
-                      setLikes(total);
-                    }
-                  });
-              });
+      data.forEach((post) => {
+        fetch(`http://localhost:8082/api/countOfLikes`, {
+          method: 'POST',
+          credentials: 'include',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ postId: post.id }),
+          })
+          .then((res) => {
+            if (!res.ok) throw new Error('Failed to fetch likes');
+              return res.json();
+          })
+          .then((likeData) => {
+          total += likeData.likes;
+          processed++;
+          if (processed === data.length) {
+            setLikes(total);
+          }
+          })
+          .catch((error) => {
+            console.error(`Błąd pobierania lajków dla posta ${post.id}:`, error);
+            processed++;
+            if (processed === data.length) {
+              setLikes(total);
+            }
+          });
+      });
 
     })
     .catch(error => {

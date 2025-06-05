@@ -141,6 +141,12 @@ function MyProfile() {
       });
     }, []);
 
+    useEffect(() => {
+        fetch("", {
+
+        }, [])
+    }, []);
+
 
 return (
     <div className="myProfile-container">
@@ -154,6 +160,7 @@ return (
         
         <div className="myProfile">
             <div className="myProfile__header">
+                
                 <div className="myProfile__avatar-container">
                     <UserCircle className="myProfile__avatar" size={104} />
                 </div>
@@ -188,7 +195,9 @@ return (
             <div className="myProfile__posts">
                 <h2 className='myProfile__posts-h2'>Posts</h2>
                 <div className="myProfile__posts-list">
-                    <MyPosts />
+                    <MyPosts>
+                      <button onClick={(e) => console.log(e.target.name)}>Usuń</button>
+                    </MyPosts>
                 </div>
             </div>
         </div>

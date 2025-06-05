@@ -3,7 +3,7 @@ import '../../Home/home.css';
 import StatisticsPost from './StatisticsPost';
 import Comments from './comments';
 
-function AllPosts() {
+function AllPosts({ children }) {
 
     const [posts, setPosts] = useState([]);
     const [page, setPage] = useState(0);
@@ -106,7 +106,11 @@ function AllPosts() {
            {posts
             .sort((a, b) => new Date(b.publicationDate) - new Date(a.publicationDate)) 
             .map((post) => (
+                
                 <div className="post" key={post.id}>
+                     <div>
+                        {children}
+                    </div>
                     <div className="post-header">
                         <div className='post-author-container'>
                             <span className="post-author" onClick={(e) => navigateToUserAccount(post.userId)}>@{post.author}</span>
@@ -114,6 +118,7 @@ function AllPosts() {
                         </div>
                         <p className='post-date'>{changeDateFormat(post.publicationDate)}</p>
                     </div>
+                    
                     <h2 className="post-title">{post.title}</h2>
                     <p className="post-content">{post.content}</p>
                     <StatisticsPost postId={post.id} />

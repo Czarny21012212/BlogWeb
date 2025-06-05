@@ -6,7 +6,7 @@ import userAccount from '../userAccount/userAccount';
 
 
 
-function MyPosts() {
+function MyPosts({ children }) {
 
     const [posts, setPosts] = useState([]);
 
@@ -65,14 +65,16 @@ function MyPosts() {
     }   
     const navigateToUserAccount = (userId) => {
      window.location.href = `/user-account/${userId}`;
-     console.log(userId);
     }
   return (
    <div className="posts-container">
            {posts
             .sort((a, b) => new Date(b.publicationDate) - new Date(a.publicationDate)) 
             .map((post) => (
-                <div className="post" key={post.id}>
+                <div className="post" key={post.id} name={post.id}>
+                    <div>
+                        {children}
+                    </div>
                     <div className="post-header">
                         <span className="post-author" onClick={(e) => navigateToUserAccount(post.userId)}>@{post.author}</span>
                         <p className='post-date'>{changeDateFormat(post.publicationDate)}</p>
