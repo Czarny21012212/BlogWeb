@@ -6,7 +6,7 @@ import userAccount from '../userAccount/userAccount';
 
 
 
-function MyPosts({ children }) {
+function MyPosts({ renderActions }) {
 
     const [posts, setPosts] = useState([]);
 
@@ -68,24 +68,26 @@ function MyPosts({ children }) {
     }
   return (
    <div className="posts-container">
-           {posts
-            .sort((a, b) => new Date(b.publicationDate) - new Date(a.publicationDate)) 
-            .map((post) => (
-                <div className="post" key={post.id} name={post.id}>
-                    <div>
-                        {children}
-                    </div>
-                    <div className="post-header">
-                        <span className="post-author" onClick={(e) => navigateToUserAccount(post.userId)}>@{post.author}</span>
-                        <p className='post-date'>{changeDateFormat(post.publicationDate)}</p>
-                    </div>
-                    <h2 className="post-title">{post.title}</h2>
-                    <p className="post-content">{post.content}</p>
-                    <StatisticsPost postId={post.id} />
-                    <Comments postId={post.id} />
+    {posts
+        .sort((a, b) => new Date(b.publicationDate) - new Date(a.publicationDate)) 
+        .map((post) => (
+        <div className="post" key={post.id} name={post.id}>
+            
+            <div className="post-header">
+                <div className='post-header-info'>
+                    <p className="post-date">{changeDateFormat(post.publicationDate)}</p>
                 </div>
-            ))}
+            {renderActions?.(post.id)}
+            </div>
+            
+            <h2 className="post-title">{post.title}</h2>
+            <p className="post-content">{post.content}</p>
+            <StatisticsPost postId={post.id} />
+            <Comments postId={post.id} />
         </div>
+        ))}
+    </div>
+
   );
 }
 

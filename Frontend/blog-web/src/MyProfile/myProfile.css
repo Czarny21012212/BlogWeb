@@ -33,6 +33,22 @@
   text-align: center;
   width: 80%;
 }
+.myProfile__settings{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(44, 44, 44);
+  border-radius: 20px;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  margin-top: 30px;
+  margin-left: 160px;
+  cursor: pointer;
+}
+.myProfile__settings:hover{
+  background-color: rgb(104, 103, 103);
+}
 
 .myProfile__avatar {
   color: var(--text-secondary);
@@ -218,6 +234,79 @@
   padding: 4px 10px;
   border-radius: 12px;
 }
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(13, 17, 23, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal {
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: var(--spacing-lg);
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  color: var(--text-primary);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  text-align: center;
+}
+
+.modal h3 {
+  margin-bottom: var(--spacing-sm);
+  font-size: 20px;
+  color: var(--text-primary);
+}
+
+.modal p {
+  font-size: 14px;
+  color: var(--text-tertiary);
+  margin-bottom: var(--spacing-md);
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--spacing-sm);
+}
+
+.modal-buttons button {
+  flex: 1;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: 8px;
+  border: none;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.modal-buttons .confirm {
+  background-color: var(--accent-color);
+  color: white;
+}
+
+.modal-buttons .confirm:hover {
+  background-color: var(--accent-hover);
+}
+
+.modal-buttons .cancel {
+  background-color: transparent;
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+}
+
+.modal-buttons .cancel:hover {
+  background-color: var(--border-color);
+}
 
 .myProfile__post-content {
   font-size: 1rem;
@@ -225,6 +314,27 @@
   margin: var(--spacing-md) 0;
   word-wrap: break-word;
 }
+.deleteButton {
+  background-color: #da3633;
+  color: var(--text-primary);
+  border: 1px solid #a41916;
+  padding: 6px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.deleteButton:hover {
+  background-color: #ff4d4f;
+  border-color: #ff7b7d;
+}
+.post-header-info{
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
 
 /* Responsiveness */
 @media (max-width: 768px) {
