@@ -4,6 +4,7 @@ import AllPosts from '../components/Posts/allPosts';
 import UserPanel from '../components/UserPanel/userPanel';
 import CreatePosts from '../components/createPosts/createPosts';
 import LogOut from '../components/logout/logout'
+import ShowUsers from '../components/ShowUsers/showUsers';
 
 
 
@@ -53,6 +54,9 @@ function Home() {
       </div>
       <div className="all-posts">
         <AllPosts />
+      </div>
+      <div className="show-users">
+        <ShowUsers></ShowUsers>
       </div>
     </div>
     || <h1>Please Login</h1>}

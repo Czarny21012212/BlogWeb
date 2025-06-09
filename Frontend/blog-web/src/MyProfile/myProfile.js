@@ -124,22 +124,22 @@ function MyProfile() {
         <>
         <div className="left-side">
             <div className='user-panel'>
-            <UserPanel></UserPanel>
+                <UserPanel />
             </div>
             <div className='left-menu'>
-            <div className='menu-create-post'>
-                <CreatePosts></CreatePosts>
-            </div>
+                <div className='menu-create-post'>
+                    <CreatePosts />
+                </div>
                 <div className='menu-logout'>
-                    <LogOut></LogOut>
+                    <LogOut />
                 </div>
             </div>
         </div>
         <div className="myProfile-container">
             {showSettings && (
-                        <div className="settings-modal">
-                            <SettingsCom />
-                        </div>
+                <div className="settings-modal">
+                    <SettingsCom />
+                </div>
             )}
             <button
                 className="home-button"
@@ -158,7 +158,7 @@ function MyProfile() {
                         <h1 className="myProfile__username">@{userData.userName || 'Loading...'}</h1>
                     </div>
                     <div className='myProfile__settings'>
-                      <Settings size={30} onClick={(e) => setShowSettings(prev => !prev)}></Settings>
+                        <Settings size={30} onClick={() => setShowSettings(prev => !prev)} />
                     </div>
                 </div>
                 <div>
@@ -190,7 +190,7 @@ function MyProfile() {
                     <h2 className='myProfile__posts-h2'>Posts</h2>
                     <div className="myProfile__posts-list">
                         <MyPosts renderActions={(postId) => (
-                            <button className="deleteButton" onClick={() => setPostToDelete(postId)}>Usuń</button>
+                            <button className="deleteButton" onClick={() => setPostToDelete(postId)}>Delete</button>
                         )} />
                     </div>
                 </div>
@@ -199,11 +199,13 @@ function MyProfile() {
             {postToDelete && (
                 <div className="modal-backdrop">
                     <div className="modal">
-                        <h3>Czy na pewno chcesz usunąć ten post?</h3>
-                        <p>Jeśli usuniesz ten post, nie będziesz mógł go już przywrócić. Lajki, które zdobył, zostaną usunięte ze statystyk, co może wpłynąć na popularność Twojego profilu.</p>
+                        <h3>Are you sure you want to delete this post?</h3>
+                        <p>
+                            If you delete this post, you will not be able to restore it. The likes it received will be removed from your statistics, which may affect your profile's popularity.
+                        </p>
                         <div className="modal-buttons">
-                            <button className="confirm" onClick={confirmDelete}>Tak, usuń</button>
-                            <button className="cancel" onClick={() => setPostToDelete(null)}>Anuluj</button>
+                            <button className="confirm" onClick={confirmDelete}>Yes, delete</button>
+                            <button className="cancel" onClick={() => setPostToDelete(null)}>Cancel</button>
                         </div>
                     </div>
                 </div>

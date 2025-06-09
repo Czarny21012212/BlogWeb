@@ -7,7 +7,7 @@
   transform: translate(-50%, -50%);
   background-color: var(--bg-secondary);
   color: var(--text-primary);
-  z-index: 1000;
+  z-index: 2000;
   border: 1px solid var(--border-color);
   border-radius: 16px;
   padding: var(--spacing-lg);
@@ -16,6 +16,7 @@
   flex-direction: column;
   gap: var(--spacing-md);
   overflow-y: auto;
+  box-shadow: 10px 10px 20px 1000px rgba(0, 0, 0, 0.815);
 }
 .settings-close-btn {
   position: absolute;

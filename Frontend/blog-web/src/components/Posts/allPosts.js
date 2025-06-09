@@ -108,9 +108,6 @@ function AllPosts({ children }) {
             .map((post) => (
                 
                 <div className="post" key={post.id}>
-                     <div>
-                        {children}
-                    </div>
                     <div className="post-header">
                         <div className='post-author-container'>
                             <span className="post-author" onClick={(e) => navigateToUserAccount(post.userId)}>@{post.author}</span>
@@ -125,6 +122,11 @@ function AllPosts({ children }) {
                     <Comments postId={post.id} />
                 </div>
             ))}
+            {!posts.length && (
+                <div className="no-posts-message">
+                    <p>No posts available</p>
+                </div>
+            )}
         </div>
   );
 }

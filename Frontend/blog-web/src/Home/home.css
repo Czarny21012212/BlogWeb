@@ -65,7 +65,6 @@ body {
   cursor: pointer;
 }
 
-/* left side */
 .left-side{
   position: fixed;
   display: flex;
@@ -75,10 +74,9 @@ body {
   width: 15vw;
   background-color: var(--bg-secondary);
   height: 100vh;
-  z-index: 100; /* Dodany z-index niższy niż Home-create-posts */
+  z-index: 100; 
 }
 
-/* Fixed user panel on the left side */
 .user-panel-all {
   display: flex;
   max-width: 300px;
@@ -87,23 +85,27 @@ body {
   border-radius: 12px;
   box-shadow: 0 1px 10px rgba(0, 0, 0, 0.034);
 }
-/* User panel */
 .post-author-container{
   display: flex;
   align-items: center;
   gap: 20px;
 }
 .follow-btn {
-  background-color: transparent;
-  color: white;
-  border: 1px solid #5e5e5e;
-  border-radius: 9999px;
-  font-size: 0.9rem;
-  font-weight: 500;
+  background: var(--accent-color, #1da1f2);
+  color: #fff;
+  border: none;
+  border-radius: 999px;
+  padding: 3px 14px;
+  font-weight: 00;
+  font-size: 0.93rem;
   cursor: pointer;
-  transition: all 0.2s ease;
-  height: 30px;
-  padding: 0px 10px;
+  transition: background 0.16s, color 0.16s;
+  margin-left: 10px;
+  min-width: 54px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .follow-btn:hover {
@@ -125,8 +127,8 @@ body {
   width: 600px;
   margin: 20px;
   padding-bottom: 60px;
-  z-index: 1; /* Dodany niski z-index dla postów */
-  position: relative; /* Dodane dla kontekstu z-index */
+  z-index: 1; 
+  position: relative; 
 }
 
 .posts-container {
@@ -134,15 +136,15 @@ body {
   max-width: 600px;
 }
 
-/* Twitter-like post styling */
 .post {
   background-color: var(--bg-secondary);
   padding: var(--spacing-md) var(--spacing-lg);
   width: 100%;
-  margin: var(--spacing-sm) 0;
+  margin: 20px;
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  position: relative; /* Dodane dla kontekstu pozycjonowania */
+  position: relative;
+  border: 1px solid rgba(255, 255, 255, 0.068)
 }
 
 /* Post header with name */
@@ -183,7 +185,6 @@ body {
   margin: var(--spacing-md) 0;
 }
 
-/* Statistics container (likes, retweets, etc) */
 .statistics-container {
   display: flex;
   align-items: center;
@@ -210,7 +211,6 @@ body {
   background-color: transparent;
 }
 
-/* Comments section */
 .comments-container {
   padding-top: var(--spacing-sm);
   width: 100%;

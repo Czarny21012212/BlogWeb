@@ -95,7 +95,7 @@
   line-height: 1.6;
   max-width: 100%;
   word-wrap: break-word;
-  text-align: center;
+
 }
 
 .userProfile__stats {
@@ -247,7 +247,7 @@
 }
 
 .userProfile__post-stat--dislikes {
-  color: #ff5722;
+  color: #ff5622c0;
 }
 
 .userProfile__post-stat--dislikes:hover {

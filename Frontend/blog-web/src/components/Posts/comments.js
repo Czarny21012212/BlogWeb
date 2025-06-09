@@ -137,56 +137,54 @@ function Comments({ postId }) {
         setYourComment({ ...yourComment, [e.target.name]: e.target.value });   
     }
     return (
-        <div className="comments-container">
-          <p className="toggle-comments" onClick={handleShowComments}>
-            {postVisible 
-              ? 'Ukryj komentarze' 
-              : (comments.length > 0 
-                  ? <>Pokaż <span >{comments.length}</span> komentarze</> 
-                  : 'Brak komentarzy')}
-          </p>
-    
-          {postVisible && (
-            
-            <div>
-               <div className="comment-form">
-                <div className="comment-input-wrapper">
-                  <input
-                    id="comment-content"
-                    type="text"
-                    placeholder="Wpisz swój komentarz..."
-                    value={yourComment.content}
-                    maxLength={78}
-                    name = "content"
-                    onChange={taggle}
-                    className="comment-input"
-                  />
-                  <button type="button" onClick={checkComment} className="comment-submit">
-                    <Send  />
-                  </button>
-                </div>
-                {commentMessage && <p className="comment-error">{commentMessage}</p>}
-              </div>
-              <div className="comments-divider" />
-              {comments.length > 0 ? (
-                comments.map((comment) => (
-                  <div className="comment" key={comment.id}>
-                    <div className="comment-header">
-                      <span className="comment-author">@{comment.userName}</span>
-                      <span className="comment-date">{changeDateFormat(comment.publicationDate)}</span>
-                    </div>
-                    <p className="comment-content">{comment.content}</p>
-                    <CommentsReplies CommentId={comment.comment_Id} />
-                  </div>
-                ))
-              ) : (
-                <p className="no-comments">Brak komentarzy</p>
-              )}
+    <div className="comments-container">
+      <p className="toggle-comments" onClick={handleShowComments}>
+        {postVisible 
+          ? 'Hide comments' 
+          : (comments.length > 0 
+              ? <>Show <span>{comments.length}</span> comments</> 
+              : 'No comments')}
+      </p>
+
+      {postVisible && (
+        <div>
+          <div className="comment-form">
+            <div className="comment-input-wrapper">
+              <input
+                id="comment-content"
+                type="text"
+                placeholder="Write your comment..."
+                value={yourComment.content}
+                maxLength={78} 
+                name="content"
+                onChange={taggle}
+                className="comment-input"
+              />
+              <button type="button" onClick={checkComment} className="comment-submit">
+                <Send />
+              </button>
             </div>
+            {commentMessage && <p className="comment-error">{commentMessage}</p>}
+          </div>
+          <div className="comments-divider" />
+          {comments.length > 0 ? (
+            comments.map((comment) => (
+              <div className="comment" key={comment.id}>
+                <div className="comment-header">
+                  <span className="comment-author">@{comment.userName}</span>
+                  <span className="comment-date">{changeDateFormat(comment.publicationDate)}</span>
+                </div>
+                <p className="comment-content">{comment.content}</p>
+                <CommentsReplies CommentId={comment.comment_Id} />
+              </div>
+            ))
+          ) : (
+            <p className="no-comments">No reply</p>
           )}
-          
         </div>
-      );
+      )}
+    </div>
+);
 }
 
 export default Comments;
