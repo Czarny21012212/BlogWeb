@@ -1,25 +1,17 @@
 package com.example.demo.Controller;
 
 import com.example.demo.Repository.UserRepository;
-import com.example.demo.Service.FollowingUserService;
-import com.example.demo.Service.ProfileService;
-import com.example.demo.Service.ProfileStatisticsService;
-import com.example.demo.Service.UserService;
-import com.example.demo.model.FollowingUser;
-import com.example.demo.model.Profile;
-import com.example.demo.model.ProfileStatistics;
-import com.example.demo.model.User;
+import com.example.demo.Service.*;
+import com.example.demo.model.*;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api")
@@ -28,13 +20,15 @@ public class ProfileController {
     private final UserService userService;
     private final ProfileStatisticsService profileStatisticsService;
     private final FollowingUserService followingUserService;
+    private final PostService postService;
 
     @Autowired
-    public ProfileController(ProfileService profileService, UserService userService, ProfileStatisticsService profileStatisticsService, FollowingUserService followingUserService) {
+    public ProfileController(ProfileService profileService, UserService userService, ProfileStatisticsService profileStatisticsService, FollowingUserService followingUserService, PostService postService) {
         this.profileService = profileService;
         this.userService = userService;
         this.profileStatisticsService = profileStatisticsService;
         this.followingUserService = followingUserService;
+        this.postService = postService;
     }
 
 
@@ -114,13 +108,108 @@ public class ProfileController {
         }
         try{
             User user = userService.findByEmail(authentication.getName()).get();
-            String Bio = user.getProfile().getBiography();
-            response.put("Bio", Bio);
+            Profile profile = user.getProfile();
+            String bio = profile.getBiography();
+            response.put("Bio", bio);
         }catch(Exception e){
             response.put("Bio", "error: " + e.getMessage());
         }
         return ResponseEntity.ok(response);
     }
+
+    @GetMapping("/userData/{id}")
+    public List<Map<String, Object>> showUserAccount(@PathVariable Long id){
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(authentication == null || !authentication.isAuthenticated() || authentication.getPrincipal().equals("anonymousUser")){
+            return null;
+        }
+
+        User user = userService.findById(id).get();
+        List<Map<String, Object>> response = new ArrayList<>();
+
+        Map<String, Object> responseMap = new HashMap<>();
+
+        responseMap.put("bio", user.getProfile().getBiography());
+        responseMap.put("userName", user.getProfile().getUserName());
+        responseMap.put("countOfLikes", user.getProfile().getStatistics().getCountOfLikes());
+        responseMap.put("countOfFollowers", user.getProfile().getStatistics().getFollowers());
+        response.add(responseMap);
+
+        return response;
+    }
+    @GetMapping("/userPosts/{id}")
+    public List<Map<String, Object>> showUserPosts(@PathVariable Long id){
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(authentication == null || !authentication.isAuthenticated() || authentication.getPrincipal().equals("anonymousUser")){
+            return null;
+        }
+
+        List<Map<String, Object>> response = new ArrayList<>();
+
+        List<Post> posts = postService.findMyPost(Long.valueOf(id));
+
+        for(Post post : posts){
+            Map<String, Object> postData = new HashMap<>();
+            postData.put("id", postService.getPostId(post));
+            postData.put("title", post.getTitle());
+            postData.put("author", post.getAuthor());
+            postData.put("content", post.getContent());
+            postData.put("publicationDate", post.getPublicationDate());
+            response.add(postData);
+        }
+        return response;
+    }
+
+    @PostMapping("/addBio")
+    public ResponseEntity<Map<String, String>> addBio(@RequestBody Map<String, String> bio){
+        Map<String, String> response = new HashMap<>();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(authentication == null || !authentication.isAuthenticated() || authentication.getPrincipal().equals("anonymousUser")){
+            response.put("message", "unauthorized");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+        }
+
+        User user = userService.findByEmail(authentication.getName()).get();
+        String newBio = bio.get("bio");
+        if(newBio.isEmpty() || newBio.length() > 30){
+            response.put("message", "The bio is too long (max 30 characters)");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+        }
+
+        Profile profile = user.getProfile();
+        profile.setBiography(bio.get("bio"));
+        profileService.save(profile);
+        user.setProfile(profile);
+        response.put("message", "success");
+
+
+        return ResponseEntity.ok(response);
+
+    }
+
+    @PostMapping("/changeUserName")
+    public ResponseEntity<Map<String, String>> changeUserName(@RequestBody Map<String, String> UserName){
+        Map<String, String> response = new HashMap<>();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(authentication == null || !authentication.isAuthenticated() || authentication.getPrincipal().equals("anonymousUser")){
+            response.put("message", "unauthorized");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+        }
+        User user = userService.findByEmail(authentication.getName()).get();
+        if(user == null){
+            response.put("message", "unauthorized");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+        }
+
+        return profileService.ChangeUsername(UserName.get("userName"), user);
+
+    }
+
+
+
+
 
 
 

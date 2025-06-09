@@ -25,7 +25,7 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<FollowingUser> followingUsers = new ArrayList<>();
 
-    @OneToOne(mappedBy = "user")
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private Profile profile;
 
     @OneToMany(mappedBy = "user")

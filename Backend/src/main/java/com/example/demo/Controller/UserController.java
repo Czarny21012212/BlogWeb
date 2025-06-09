@@ -220,11 +220,9 @@ public class UserController {
            return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/delete-post")
-    public Boolean deletePost(@RequestBody Map<String, Long> dataPost, HttpServletRequest request) {
+    @GetMapping("/delete-post/{id}")
+    public Boolean deletePost(@PathVariable Long id) {
         Map<String, String> response = new HashMap<>();
-
-        System.out.println(dataPost.get("post_id"));
 
         try{
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -232,11 +230,10 @@ public class UserController {
                 return false;
             }
             User user = userService.findByEmail(authentication.getName()).get();
-            Long postId = dataPost.get("post_id");
-            Post post = postService.findById(postId).get();
+            Post post = postService.findById(id).get();
 
             if(Objects.equals(post.getUser().getId(), user.getId())){
-                postService.deleteById(postId);
+                postService.deleteById(id);
                 return true;
             }
             else return false;
@@ -305,6 +302,5 @@ public class UserController {
                 !(authentication.getPrincipal() instanceof String &&
                         authentication.getPrincipal().equals("anonymousUser"));
     }
-
 
 }

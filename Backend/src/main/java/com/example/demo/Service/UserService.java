@@ -1,5 +1,6 @@
 package com.example.demo.Service;
 
+import com.example.demo.Repository.CommentsRepliesRepository;
 import com.example.demo.Repository.UserRepository;
 import com.example.demo.model.Profile;
 import com.example.demo.model.ProfileStatistics;
@@ -8,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.example.demo.model.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -17,12 +20,15 @@ public class UserService {
     private final ProfileService profileService;
     private final ProfileStatisticsService profileStatisticsService;
 
+    private final CommentsRepliesRepository commentsRepliesRepository;
+
     @Autowired
-    public UserService(PasswordEncoder passwordEncoder, UserRepository userRepository, ProfileService profileService, ProfileStatisticsService profileStatisticsService) {
+    public UserService(PasswordEncoder passwordEncoder, UserRepository userRepository, ProfileService profileService, ProfileStatisticsService profileStatisticsService, CommentsRepliesRepository commentsRepliesRepository) {
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
         this.profileService = profileService;
         this.profileStatisticsService = profileStatisticsService;
+        this.commentsRepliesRepository = commentsRepliesRepository;
     }
 
     public Optional<User> findByEmail(String email) {
@@ -44,5 +50,9 @@ public class UserService {
         ProfileStatistics profileStatistics = new ProfileStatistics();
         profileStatistics.setProfile(profile);
         profileStatisticsService.save(profileStatistics);
+    }
+
+    public Optional<User> findById(Long id) {
+        return userRepository.findById(id);
     }
 }
