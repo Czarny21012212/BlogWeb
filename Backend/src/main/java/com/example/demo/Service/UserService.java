@@ -7,6 +7,8 @@ import com.example.demo.model.ProfileStatistics;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.example.demo.model.User;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -54,5 +56,10 @@ public class UserService {
 
     public Optional<User> findById(Long id) {
         return userRepository.findById(id);
+    }
+
+    public List<User> findAll(int limit, int offset) {
+        Pageable pageable = PageRequest.of(offset / limit, limit);
+        return userRepository.findAll(pageable).getContent();
     }
 }

@@ -8,6 +8,7 @@ import com.example.demo.Repository.PostRepository;
 import com.fasterxml.jackson.databind.ser.std.StdKeySerializers;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import org.hibernate.query.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -301,6 +302,28 @@ public class UserController {
                 authentication.isAuthenticated() &&
                 !(authentication.getPrincipal() instanceof String &&
                         authentication.getPrincipal().equals("anonymousUser"));
+    }
+
+    @GetMapping("/showUsers/{limit}/{offset}")
+    public List<Map<String, Object>> showUsers(@PathVariable int limit, @PathVariable int offset) {
+
+        List<Map<String, Object>> response = new ArrayList<>();
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if(authentication == null || !authentication.isAuthenticated() || authentication.getPrincipal().equals("anonymousUser")){
+            return null;
+        }
+        List<User> users = userService.findAll(limit, offset);
+
+        for(User user : users){
+            Map<String, Object> UserData = new HashMap<>();
+            UserData.put("id", user.getId());
+            UserData.put("email", user.getEmail());
+            UserData.put("userName", user.getProfile().getUserName());
+            response.add(UserData);
+        }
+        return response;
     }
 
 }
