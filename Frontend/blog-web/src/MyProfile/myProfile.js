@@ -95,7 +95,7 @@ function MyProfile() {
                 if (response.ok) return response.json();
                 else throw new Error('Failed to fetch bio data');
             })
-            .then(data => setBio(data.bio))
+            .then(data => setBio(data.Bio))
             .catch(error => console.error('Error:', error));
     }, []);
 
@@ -119,6 +119,11 @@ function MyProfile() {
 
     return (
         <div className="myProfile-container">
+            {showSettings && (
+                        <div className="settings-modal">
+                            <SettingsCom />
+                        </div>
+            )}
             <button
                 className="home-button"
                 onClick={() => window.location.href = 'http://localhost:3000/'}
@@ -140,11 +145,7 @@ function MyProfile() {
                     </div>
                 </div>
                 <div>
-                    {showSettings && (
-                        <div className="settings-modal">
-                            <SettingsCom />
-                        </div>
-                    )}
+                    
                 </div>
 
                 <div className="myProfile__bio">
