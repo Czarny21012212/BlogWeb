@@ -3,6 +3,9 @@ import { UserCircle, Settings } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import MyPosts from '../components/myPosts/myPosts';
 import SettingsCom from '../components/ProfileSettings/Settings.jsx';
+import UserPanel from '../components/UserPanel/userPanel.js';
+import CreatePosts from '../components/createPosts/createPosts.js';
+import LogOut from '../components/logout/logout.js';
 
 function MyProfile() {
     const [posts, setPosts] = useState([]);
@@ -118,6 +121,20 @@ function MyProfile() {
     };
 
     return (
+        <>
+        <div className="left-side">
+            <div className='user-panel'>
+            <UserPanel></UserPanel>
+            </div>
+            <div className='left-menu'>
+            <div className='menu-create-post'>
+                <CreatePosts></CreatePosts>
+            </div>
+                <div className='menu-logout'>
+                    <LogOut></LogOut>
+                </div>
+            </div>
+        </div>
         <div className="myProfile-container">
             {showSettings && (
                         <div className="settings-modal">
@@ -192,6 +209,7 @@ function MyProfile() {
                 </div>
             )}
         </div>
+        </>
     );
 }
 

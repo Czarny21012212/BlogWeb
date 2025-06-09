@@ -23,10 +23,21 @@ const Settings = ({ userId, onClose }) => {
       </button>
       <div className="settings-header">
         <SettingsIcon size={32} className="settings-icon" />
-        <h1>Settings</h1>
+        <h2>Settings</h2>
       </div>
-      <CompleteBio />
-      <ChangeUserName />
+      <p className="settings-description">
+        You can change your username and add a short bio to let others know more about you.<br />
+        <span style={{ color: "var(--text-tertiary, #8b949e)" }}>
+          Changes are visible to everyone. Make sure your information is appropriate and unique.<br />
+          Your username is how others will find you. Your bio helps you express yourself!
+        </span>
+      </p>
+      <section className="settings-section">
+        <CompleteBio />
+      </section>
+      <section className="settings-section">
+        <ChangeUserName />
+      </section>
     </div>
   )
 }

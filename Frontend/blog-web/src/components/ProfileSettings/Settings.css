@@ -32,3 +32,14 @@
 .settings-close-btn:hover {
   color: var(--accent-color, #eb1f1f);
 }
+.settings-header{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-left: 2vw;
+}
+.settings-description{
+    font-size: 1rem;
+    color: var(--text-secondary);
+    margin-left: 2vw;
+}

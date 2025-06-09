@@ -4,6 +4,9 @@ import { UserCircle} from 'lucide-react';
 import Comments from '../Posts/comments';
 import StatisticsPost from '../Posts/StatisticsPost';
 import './userAccount.css'; 
+import UserPanel from '../UserPanel/userPanel';
+import CreatePosts from '../createPosts/createPosts';
+import LogOut from '../logout/logout';
 
 const UserAccount = () => {
   const { id } = useParams();
@@ -162,6 +165,22 @@ const UserAccount = () => {
   const userInfo = userData.length > 0 ? userData[0] : {};
 
   return (
+    <>
+     <div className="left-side">
+            <div className='user-panel'>
+            <UserPanel></UserPanel>
+            </div>
+            <div className='left-menu'>
+            <div className='menu-create-post'>
+                <CreatePosts></CreatePosts>
+            </div>
+                <div className='menu-logout'>
+                    <LogOut></LogOut>
+                </div>
+            </div>
+        </div>
+    
+    
     <div className="userProfile-container">
       <button 
         className="home-button"
@@ -229,6 +248,7 @@ const UserAccount = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 
