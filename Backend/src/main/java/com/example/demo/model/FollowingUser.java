@@ -32,4 +32,10 @@ public class FollowingUser {
     public void setUser(User user) {
         this.user = user;
     }
+    public String getFollowingUserEmail() {
+        return followingUserEmail;
+    }
+    public void setFollowingUserEmail(String followingUserEmail) {
+        this.followingUserEmail = followingUserEmail;
+    }
 }

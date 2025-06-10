@@ -326,4 +326,25 @@ public class UserController {
         return response;
     }
 
+    @GetMapping("/showFollowedUser")
+    public ResponseEntity<List<Map<String, Object>>> showFollowedUser(){
+        List<Map<String, Object>> response = new ArrayList<>();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated() || authentication.getPrincipal().equals("anonymousUser")) {
+            return null;
+        }
+
+        User user = userService.findByEmail(authentication.getName()).get();
+
+        List<FollowingUser> listFollowedUsers = userService.getFollowingUsers(user);
+
+        for(FollowingUser FollowedUser : listFollowedUsers){
+            Map<String, Object> UserData = new HashMap<>();
+            UserData.put("email", FollowedUser.getFollowingUserEmail());
+            response.add(UserData);
+        }
+        return ResponseEntity.ok(response);
+
+    }
+
 }

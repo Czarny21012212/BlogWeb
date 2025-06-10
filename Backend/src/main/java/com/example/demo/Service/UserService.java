@@ -2,6 +2,7 @@ package com.example.demo.Service;
 
 import com.example.demo.Repository.CommentsRepliesRepository;
 import com.example.demo.Repository.UserRepository;
+import com.example.demo.model.FollowingUser;
 import com.example.demo.model.Profile;
 import com.example.demo.model.ProfileStatistics;
 import jakarta.transaction.Transactional;
@@ -61,5 +62,9 @@ public class UserService {
     public List<User> findAll(int limit, int offset) {
         Pageable pageable = PageRequest.of(offset / limit, limit);
         return userRepository.findAll(pageable).getContent();
+    }
+
+    public List<FollowingUser> getFollowingUsers(User user) {
+        return user.getFollowingUsers();
     }
 }
