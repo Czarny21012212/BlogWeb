@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, use } from 'react'
 import { User } from 'lucide-react'
 import './showUsers.css'
 
@@ -7,6 +7,7 @@ export const ShowUsers = () => {
     const [limit, setLimit] = useState(5)
     const [offset, setOffset] = useState(0)
     const [loading, setLoading] = useState(false)
+    const [followedUsers, setFollowedUsers] = useState([])
 
     const fetchUsers = () => {
         setLoading(true)
@@ -35,8 +36,54 @@ export const ShowUsers = () => {
 
     useEffect(() => {
         fetchUsers();
-        // eslint-disable-next-line
     }, []);
+
+    const followUser = (userEmail) => {
+        fetch('http://localhost:8082/api/followUser', {
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ email: userEmail })
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                throw new Error('Failed to follow user');
+            }
+        })
+        .then(data => {
+            console.log('Followed user successfully:', data);
+        })
+        .catch(error => {
+            console.error('Error following user:', error);
+        });
+    }
+
+    useEffect(() => {
+        fetch('http://localhost:8082/api/showFollowedUser', {
+            method: 'GET',
+            credentials: 'include'
+        })
+        .then(response => {
+            if (response.ok) {  
+                return response.json();
+            }
+            throw new Error('Failed to fetch followed users');
+        })
+        .then(data => {
+            setFollowedUsers(data)
+        })
+        .catch(error => {
+            console.error('Error fetching followed users:', error);
+        });
+    }, []);
+
+    const isUserFollowed = (userEmail) => {
+        return followedUsers.some(followedUser => followedUser.email === userEmail);
+    }
 
     return (
         <div className="show-users-container">
@@ -51,7 +98,11 @@ export const ShowUsers = () => {
                             <h4 className="user-name-x">@{user.userName}</h4>
                             <p className="user-email-x">{user.email}</p>
                         </div>
-                        <button className="follow-btn-x">Follow</button>
+                        {isUserFollowed(user.email)  ? (
+                            <button className="follow-btn-following" onClick={(e) => followUser(user.email)}>Following</button>
+                        ) : (<button className="follow-btn-x" onClick={(e) => followUser(user.email)}>Follow</button>)}
+
+
                     </div>
                 ))}
                 <button

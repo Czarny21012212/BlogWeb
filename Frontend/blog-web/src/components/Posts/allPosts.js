@@ -99,7 +99,31 @@ function AllPosts({ children }) {
     const navigateToUserAccount = (userId) => {
      window.location.href = `/userAccount/${userId}`;
     }
+    const [followedUsers, setFollowedUsers] = useState([])
 
+    useEffect(() => {
+            fetch('http://localhost:8082/api/showFollowedUser', {
+                method: 'GET',
+                credentials: 'include'
+            })
+            .then(response => {
+                if (response.ok) {  
+                    return response.json();
+                }
+                throw new Error('Failed to fetch followed users');
+            })
+            .then(data => {
+                setFollowedUsers(data)
+            })
+            .catch(error => {
+                console.error('Error fetching followed users:', error);
+            });
+        }, []);
+    
+
+    const isUserFollowed = (userEmail) => {
+        return followedUsers.some(followedUser => followedUser.email === userEmail);
+    }
 
   return (
    <div className="posts-container">
@@ -111,7 +135,9 @@ function AllPosts({ children }) {
                     <div className="post-header">
                         <div className='post-author-container'>
                             <span className="post-author" onClick={(e) => navigateToUserAccount(post.userId)}>@{post.author}</span>
-                            <button className="follow-btn" onClick={(e)=> followUser(post.email)}>Follow</button>
+                            {isUserFollowed(post.email)  ? (
+                                <button className="follow-btn-following" onClick={(e) => followUser(post.email)}>Following</button>
+                            ) : (<button className="follow-btn-x" onClick={(e) => followUser(post.email)}>Follow</button>)}
                         </div>
                         <p className='post-date'>{changeDateFormat(post.publicationDate)}</p>
                     </div>
