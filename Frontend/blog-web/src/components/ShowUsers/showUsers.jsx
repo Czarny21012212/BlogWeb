@@ -85,6 +85,10 @@ export const ShowUsers = () => {
         return followedUsers.some(followedUser => followedUser.email === userEmail);
     }
 
+     const navigateToUserAccount = (userId) => {
+     window.location.href = `/userAccount/${userId}`;
+    }
+
     return (
         <div className="show-users-container">
             <h3 className="show-users-title">Who to follow</h3>
@@ -95,14 +99,12 @@ export const ShowUsers = () => {
                             <User size={36} />
                         </div>
                         <div className="user-info-x">
-                            <h4 className="user-name-x">@{user.userName}</h4>
+                            <h4 className="user-name-x" onClick={(e) => navigateToUserAccount(user.id)}>@{user.userName}</h4>
                             <p className="user-email-x">{user.email}</p>
                         </div>
                         {isUserFollowed(user.email)  ? (
                             <button className="follow-btn-following" onClick={(e) => followUser(user.email)}>Following</button>
                         ) : (<button className="follow-btn-x" onClick={(e) => followUser(user.email)}>Follow</button>)}
-
-
                     </div>
                 ))}
                 <button

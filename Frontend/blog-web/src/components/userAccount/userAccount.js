@@ -9,76 +9,31 @@ import CreatePosts from '../createPosts/createPosts';
 import LogOut from '../logout/logout';
 
 const UserAccount = () => {
-  const { id } = useParams();
-  
-  const [posts, setPosts] = useState([]);
-  const [userData, setUserData] = useState([]);
-
-  useEffect(() => {
-    fetch(`http://localhost:8082/api/userPosts/${id}`, {
-      method: 'GET',
-      credentials: 'include',
-    })
-    .then(response => {
-      if (response.ok) {
-        return response.json();
-      } else {
-        throw new Error('Failed to fetch user account data');
-      }
-    })
-    .then(data => {
-      setPosts(data);
-
-      let total = 0;
-      let processed = 0;
-      
-              // Fetch likes for each post
-      data.forEach((post) => {
-        fetch(`http://localhost:8082/api/countOfLikes`, {
-          method: 'POST',
-          credentials: 'include',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ postId: post.id }),
-          })
-          .then((res) => {
-            if (!res.ok) throw new Error('Failed to fetch likes');
-              return res.json();
-          })
-          .then((likeData) => {
-          total += likeData.likes;
-          processed++;
-          if (processed === data.length) {
-            setLikes(total);
-          }
-          })
-          .catch((error) => {
-            console.error(`Błąd pobierania lajków dla posta ${post.id}:`, error);
-            processed++;
-            if (processed === data.length) {
-              setLikes(total);
-            }
-          });
-      });
-
-    })
-    .catch(error => {
-      console.error('Error:', error);
-    });
+    const { id } = useParams();
     
-  }, [id]);
+    const [posts, setPosts] = useState([]);
+    const [userData, setUserData] = useState([]);
 
-  const [likes, setLikes] = useState(0);
+    useEffect(() => {
+      fetch(`http://localhost:8082/api/userPosts/${id}`, {
+        method: 'GET',
+        credentials: 'include',
+      })
+      .then(response => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          throw new Error('Failed to fetch user account data');
+        }
+      })
+      .then(data => {
+        setPosts(data);
 
- 
-
-  useEffect(() => {
-
-      let total = 0;
-      let processed = 0;
-
-      posts.forEach((post) => {
+        let total = 0;
+        let processed = 0;
+        
+                // Fetch likes for each post
+        data.forEach((post) => {
           fetch(`http://localhost:8082/api/countOfLikes`, {
             method: 'POST',
             credentials: 'include',
@@ -86,50 +41,94 @@ const UserAccount = () => {
               'Content-Type': 'application/json',
             },
             body: JSON.stringify({ postId: post.id }),
-          })
+            })
             .then((res) => {
               if (!res.ok) throw new Error('Failed to fetch likes');
-              return res.json();
+                return res.json();
             })
-            .then((postsdata) => {
-              total += postsdata.likes;
-              processed++;
-              if (processed === posts.length) {
-                setLikes(total);
-              }
+            .then((likeData) => {
+            total += likeData.likes;
+            processed++;
+            if (processed === data.length) {
+              setLikes(total);
+            }
             })
             .catch((error) => {
               console.error(`Błąd pobierania lajków dla posta ${post.id}:`, error);
               processed++;
-              if (processed === posts.length) {
+              if (processed === data.length) {
                 setLikes(total);
               }
             });
         });
-  }, [posts]);
 
-  useEffect(() => {
-    fetch(`http://localhost:8082/api/userData/${id}`, {
-      method: 'GET',
-      credentials: 'include',
-    })
-    .then(response => {
-      if (response.ok) {
-        return response.json();
-      } else {
-        throw new Error('Failed to fetch user data');
-      }
-    })
-    .then(data => {
-      setUserData(data);
-    })
-    .catch(error => {
-      console.error('Error:', error);
-    });
-  }, [id]);
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+      
+    }, [id]);
 
-   
+    const [likes, setLikes] = useState(0);
+
   
+
+    useEffect(() => {
+
+        let total = 0;
+        let processed = 0;
+
+        posts.forEach((post) => {
+            fetch(`http://localhost:8082/api/countOfLikes`, {
+              method: 'POST',
+              credentials: 'include',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ postId: post.id }),
+            })
+              .then((res) => {
+                if (!res.ok) throw new Error('Failed to fetch likes');
+                return res.json();
+              })
+              .then((postsdata) => {
+                total += postsdata.likes;
+                processed++;
+                if (processed === posts.length) {
+                  setLikes(total);
+                }
+              })
+              .catch((error) => {
+                console.error(`Błąd pobierania lajków dla posta ${post.id}:`, error);
+                processed++;
+                if (processed === posts.length) {
+                  setLikes(total);
+                }
+              });
+          });
+    }, [posts]);
+
+    useEffect(() => {
+      fetch(`http://localhost:8082/api/userData/${id}`, {
+        method: 'GET',
+        credentials: 'include',
+      })
+      .then(response => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          throw new Error('Failed to fetch user data');
+        }
+      })
+      .then(data => {
+        setUserData(data);
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+    }, [id]);
+
+
 
   const changeDateFormat = (dateString) => {
         const date = new Date(dateString);
@@ -164,6 +163,55 @@ const UserAccount = () => {
   const totalFollowers = userData.length > 0 ? userData[0].countOfFollowers : 0;
   const userInfo = userData.length > 0 ? userData[0] : {};
 
+  const [followedUsers, setFollowedUsers] = useState([])
+
+    useEffect(() => {
+            fetch('http://localhost:8082/api/showFollowedUser', {
+                method: 'GET',
+                credentials: 'include'
+            })
+            .then(response => {
+                if (response.ok) {  
+                    return response.json();
+                }
+                throw new Error('Failed to fetch followed users');
+            })
+            .then(data => {
+                setFollowedUsers(data)
+            })
+            .catch(error => {
+                console.error('Error fetching followed users:', error);
+            });
+        }, []);
+    
+
+    const isUserFollowed = (userEmail) => {
+        return followedUsers.some(followedUser => followedUser.email === userEmail);
+    }
+
+    const followUser = (userEmail) => {
+        fetch('http://localhost:8082/api/followUser', {
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ email: userEmail })
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                throw new Error('Failed to follow user');
+            }
+        })
+        .then(data => {
+            console.log('Followed user successfully:', data);
+        })
+        .catch(error => {
+            console.error('Error following user:', error);
+        });
+    }
   return (
     <>
      <div className="left-side">
@@ -201,9 +249,12 @@ const UserAccount = () => {
               @{userInfo.userName || 'Loading...'}
             </h1>
           </div>
+           {isUserFollowed(userInfo.email)  ? (
+          <button className="follow-btn-following" onClick={(e) => followUser(userInfo.email)}>Following</button>
+        ) : (<button className="follow-btn-x" onClick={(e) => followUser(userInfo.email)}>Follow</button>)}
         </div>
-        
-        {/* Bio Section */}
+       
+
         <div className="userProfile__bio">
           <p className="userProfile__bio-text">
             {userInfo.bio || 'This user has not set a bio yet.'}
