@@ -132,6 +132,7 @@ public class ProfileController {
 
         responseMap.put("bio", user.getProfile().getBiography());
         responseMap.put("userName", user.getProfile().getUserName());
+        responseMap.put("email", user.getEmail());
         responseMap.put("countOfLikes", user.getProfile().getStatistics().getCountOfLikes());
         responseMap.put("countOfFollowers", user.getProfile().getStatistics().getFollowers());
         response.add(responseMap);
