@@ -12,6 +12,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Sort;
+
 
 import java.util.List;
 import java.util.Optional;
@@ -60,7 +62,7 @@ public class UserService {
     }
 
     public List<User> findAll(int limit, int offset) {
-        Pageable pageable = PageRequest.of(offset / limit, limit);
+        Pageable pageable = PageRequest.of(offset / limit, limit, Sort.by("id").ascending());
         return userRepository.findAll(pageable).getContent();
     }
 

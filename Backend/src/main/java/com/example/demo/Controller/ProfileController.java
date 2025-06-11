@@ -130,6 +130,7 @@ public class ProfileController {
 
         Map<String, Object> responseMap = new HashMap<>();
 
+        responseMap.put("id", user.getId());
         responseMap.put("bio", user.getProfile().getBiography());
         responseMap.put("userName", user.getProfile().getUserName());
         responseMap.put("email", user.getEmail());

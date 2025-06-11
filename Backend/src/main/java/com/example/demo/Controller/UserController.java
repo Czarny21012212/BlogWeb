@@ -35,9 +35,10 @@ public class UserController {
     private final LikeService likeService;
     private final ProfileService profileService;
     private final ProfileStatisticsService profileStatisticsService;
+    private final FollowingUserService followingUserService;
 
     @Autowired
-    public UserController(UserService userService, AuthenticationManager authenticationManager, PostService postService, PostRepository postRepository, PostService postService1, UserRepository userRepository, LikedPostService likedPostService, LikedPostRepository likedPostRepository, LikeService likeService, ProfileService profileService, ProfileStatisticsService profileStatisticsService) {
+    public UserController(UserService userService, AuthenticationManager authenticationManager, PostService postService, PostRepository postRepository, PostService postService1, UserRepository userRepository, LikedPostService likedPostService, LikedPostRepository likedPostRepository, LikeService likeService, ProfileService profileService, ProfileStatisticsService profileStatisticsService, FollowingUserService followingUserService) {
         this.userService = userService;
         this.authenticationManager = authenticationManager;
         this.postRepository = postRepository;
@@ -48,6 +49,7 @@ public class UserController {
         this.likeService = likeService;
         this.profileService = profileService;
         this.profileStatisticsService = profileStatisticsService;
+        this.followingUserService = followingUserService;
     }
 
     @PostMapping("/register-2")
@@ -344,6 +346,24 @@ public class UserController {
             response.add(UserData);
         }
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("unFollow/{id}")
+    public ResponseEntity<Map<String, String>> unFollow(@PathVariable Long id) {
+
+        Map<String, String> response = new HashMap<>();
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated() || authentication.getPrincipal().equals("anonymousUser")) {
+            return null;
+        }
+
+        User user = userService.findByEmail(authentication.getName()).get();
+        User unFollowedUser = userService.findById(id).get();
+        String unFollowedUserEmail = unFollowedUser.getEmail();
+
+        long removed = followingUserService.unFollow(unFollowedUserEmail, user);
+        return ResponseEntity.ok(Map.of("message", removed > 0 ? "success" : "nothing to unfollow"));
 
     }
 
