@@ -1,4 +1,4 @@
-import React, { useState, useEffect, use } from 'react'
+import React, { useState, useEffect } from 'react'
 import { User } from 'lucide-react'
 import './showUsers.css'
 
@@ -38,30 +38,6 @@ export const ShowUsers = () => {
         fetchUsers();
     }, []);
 
-    const followUser = (userEmail) => {
-        fetch('http://localhost:8082/api/followUser', {
-            method: 'POST',
-            credentials: 'include',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ email: userEmail })
-        })
-        .then(response => {
-            if (response.ok) {
-                return response.json();
-            } else {
-                throw new Error('Failed to follow user');
-            }
-        })
-        .then(data => {
-            console.log('Followed user successfully:', data);
-        })
-        .catch(error => {
-            console.error('Error following user:', error);
-        });
-    }
-
     useEffect(() => {
         fetch('http://localhost:8082/api/showFollowedUser', {
             method: 'GET',
@@ -85,8 +61,43 @@ export const ShowUsers = () => {
         return followedUsers.some(followedUser => followedUser.email === userEmail);
     }
 
-     const navigateToUserAccount = (userId) => {
-     window.location.href = `/userAccount/${userId}`;
+    const toggleFollowUser = (userEmail, userId) => {
+        const isFollowed = isUserFollowed(userEmail);
+
+        const endpoint = isFollowed
+            ? `http://localhost:8082/api/unFollow/${userId}`  
+            : 'http://localhost:8082/api/followUser';       
+
+        const options = isFollowed
+            ? { method: 'GET', credentials: 'include' }
+            : {
+                method: 'POST',
+                credentials: 'include',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: userEmail }),
+              };
+
+        fetch(endpoint, options)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to toggle follow');
+            }
+            return response.json();
+        })
+        .then(() => {
+            setFollowedUsers(prev =>
+                isFollowed
+                    ? prev.filter(user => user.email !== userEmail)
+                    : [...prev, { email: userEmail }]
+            );
+        })
+        .catch(error => {
+            console.error('Error toggling follow:', error);
+        });
+    }
+
+    const navigateToUserAccount = (userId) => {
+        window.location.href = `/userAccount/${userId}`;
     }
 
     return (
@@ -99,12 +110,14 @@ export const ShowUsers = () => {
                             <User size={36} />
                         </div>
                         <div className="user-info-x">
-                            <h4 className="user-name-x" onClick={(e) => navigateToUserAccount(user.id)}>@{user.userName}</h4>
+                            <h4 className="user-name-x" onClick={() => navigateToUserAccount(user.id)}>@{user.userName}</h4>
                             <p className="user-email-x">{user.email}</p>
                         </div>
-                        {isUserFollowed(user.email)  ? (
-                            <button className="follow-btn-following" onClick={(e) => followUser(user.email)}>Following</button>
-                        ) : (<button className="follow-btn-x" onClick={(e) => followUser(user.email)}>Follow</button>)}
+                        {isUserFollowed(user.email) ? (
+                            <button className="follow-btn-following" onClick={() => toggleFollowUser(user.email, user.id)}>Following</button>
+                        ) : (
+                            <button className="follow-btn-x" onClick={() => toggleFollowUser(user.email, user.id)}>Follow</button>
+                        )}
                     </div>
                 ))}
                 <button
