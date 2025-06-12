@@ -7,6 +7,17 @@ import UserPanel from '../components/UserPanel/userPanel.js';
 import CreatePosts from '../components/createPosts/createPosts.js';
 import LogOut from '../components/logout/logout.js';
 
+
+const UserAvatar = ({ username }) => {
+  const firstLetter = username ? username.charAt(0).toUpperCase() : '?';
+  
+  return (
+    <div className="user-avatar">
+      {firstLetter}
+    </div>
+  );
+};
+
 function MyProfile() {
     const [posts, setPosts] = useState([]);
     const [likes, setLikes] = useState(0);
@@ -123,15 +134,15 @@ function MyProfile() {
     return (
         <>
         <div className="left-side">
-            <div className='user-panel'>
-                <UserPanel />
+            <div className='header'>
+                <h2>Blog Web</h2>
+            </div>
+                <div className='user-panel'>
+                <UserPanel></UserPanel>
             </div>
             <div className='left-menu'>
                 <div className='menu-create-post'>
-                    <CreatePosts />
-                </div>
-                <div className='menu-logout'>
-                    <LogOut />
+                    <CreatePosts></CreatePosts>
                 </div>
             </div>
         </div>
@@ -152,10 +163,10 @@ function MyProfile() {
             <div className="myProfile">
                 <div className="myProfile__header">
                     <div className="myProfile__avatar-container">
-                        <UserCircle className="myProfile__avatar" size={104} />
+                         <UserAvatar username={userData.userName} />
                     </div>
                     <div className="myProfile__user-info">
-                        <h1 className="myProfile__username">@{userData.userName || 'Loading...'}</h1>
+                        <h1 className="myProfile__username">{userData.userName || 'Loading...'}</h1>
                     </div>
                     <div className='myProfile__settings'>
                         <Settings size={30} onClick={() => setShowSettings(prev => !prev)} />

@@ -2,12 +2,23 @@ import React, { useState, useEffect } from 'react'
 import { User } from 'lucide-react'
 import './showUsers.css'
 
+const UserAvatar = ({ username }) => {
+  const firstLetter = username ? username.charAt(0).toUpperCase() : '?';
+  
+  return (
+    <div className="user-avatar">
+      {firstLetter}
+    </div>
+  );
+};
+
 export const ShowUsers = () => {
     const [users, setUsers] = useState([])
     const [limit, setLimit] = useState(5)
     const [offset, setOffset] = useState(0)
     const [loading, setLoading] = useState(false)
     const [followedUsers, setFollowedUsers] = useState([])
+    const [hoveredUserId, setHoveredUserId] = useState(null); // <--- zmiana
 
     const fetchUsers = () => {
         setLoading(true)
@@ -107,16 +118,28 @@ export const ShowUsers = () => {
                 {users.map((user) => (
                     <div key={user.id} className="user-card-x">
                         <div className="user-avatar-x">
-                            <User size={36} />
+                            <UserAvatar username={user.userName} />
                         </div>
                         <div className="user-info-x">
-                            <h4 className="user-name-x" onClick={() => navigateToUserAccount(user.id)}>@{user.userName}</h4>
+                            <h4 className="user-name-x" onClick={() => navigateToUserAccount(user.id)}>{user.userName}</h4>
                             <p className="user-email-x">{user.email}</p>
                         </div>
                         {isUserFollowed(user.email) ? (
-                            <button className="follow-btn-following" onClick={() => toggleFollowUser(user.email, user.id)}>Following</button>
+                        <button
+                            className="follow-btn-following"
+                            onClick={() => toggleFollowUser(user.email, user.id)}
+                            onMouseEnter={() => setHoveredUserId(user.id)}
+                            onMouseLeave={() => setHoveredUserId(null)}
+                        >
+                            {hoveredUserId === user.id ? 'Unfollow' : 'Following'}
+                        </button>
                         ) : (
-                            <button className="follow-btn-x" onClick={() => toggleFollowUser(user.email, user.id)}>Follow</button>
+                        <button
+                            className="follow-btn-x"
+                            onClick={() => toggleFollowUser(user.email, user.id)}
+                        >
+                            Follow
+                        </button>
                         )}
                     </div>
                 ))}

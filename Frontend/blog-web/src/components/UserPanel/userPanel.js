@@ -2,6 +2,16 @@ import './userPanel.css';
 import React, { useEffect, useState } from 'react';
 import { User } from 'lucide-react';
 
+const UserAvatar = ({ username }) => {
+  const firstLetter = username ? username.charAt(0).toUpperCase() : '?';
+  
+  return (
+    <div className="user-avatar">
+      {firstLetter}
+    </div>
+  );
+};
+
 function UserPanel() {
 
     const [userData, setUserData] = useState([]);
@@ -38,8 +48,8 @@ function UserPanel() {
       {userData.map((user) => (
         <div className='user-panel-container' key={user.id}>
             <div className='user-panel-header'>
-                <User className='user-icon' />
-                <p className='user-name'>@{user.userName}</p>
+                <UserAvatar className="user-panel-avatar" username={user.userName} />
+                <p className='user-name'>{user.userName}</p>
             </div>
             <p className='user-email'>{user.email}</p>
         </div>

@@ -23,7 +23,15 @@
   box-sizing: border-box;
   gap: var(--spacing-lg);
 }
-
+.userProfile__top_container{
+  margin-left: -100px;
+}
+.userProfile__top{
+  display: flex;
+  flex-direction: column;
+  width: 110%;
+  gap: 20px;
+}
 .userProfile__header {
   display: flex;
   gap: var(--spacing-md);
@@ -51,11 +59,13 @@
 }
 
 .userProfile__username {
-  font-size: 2rem;
+  font-size: 1.5rem;
   font-weight: 700;
   margin: var(--spacing-sm) 0 0;
   color: var(--text-secondary);
   letter-spacing: -0.01em;
+  margin-left: -20px;
+  margin-top: 0px;
 }
 
 .home-button {
@@ -78,25 +88,86 @@
 .home-button:hover {
   background-color: var(--accent-color);
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow:  4px 12px rgba(0, 0, 0, 0.15);
 }
 
-.follow-btn-following {
-  background-color: white;
-  color: black;
-  border: 1px solid #ccc;
-  border-radius: 20px;
-  padding: 6px 16px;
-  font-weight: 600;
+.userAccount-follow-btn-x {
+  background: var(--accent-color, #2e353a);
+  color: #fff;
+  border: none;
+  border-radius: 999px;
+  padding: 20px 34px;
+  font-weight: 700;
+  font-size: 1rem;
   cursor: pointer;
+  transition: background 0.16s, color 0.16s;
+  margin-left: 170px;
+  margin-top: 20px;
+  min-width: 54px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.userAccount-follow-btn-x:hover {
+  background: #1a8cd8;
+  color: #fff;
+}
+
+.userAccount-follow-btn-following {
+  background: #22272e;
+  color: #fff;
+  border: none;
+  border-radius: 999px;
+  border: 0.2px solid rgba(255, 255, 255, 0.781);
+  padding: 20px 34px;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.16s, color 0.16s;
+  margin-left: 70px;
+  margin-top: 20px;
+  min-width: 54px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* User Avatar Styling */
+.user-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 20px;
+  background: linear-gradient(135deg, var(--accent-color) 0%, #a0a4ac 100%);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  box-shadow: 0 4px 20px rgba(29, 161, 242, 0.2);
   transition: all 0.3s ease;
 }
 
-.follow-btn-following:hover {
-  color: red;
-  border-color: red;
+.user-avatar:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 24px rgba(29, 161, 242, 0.3);
 }
 
+.userProfile__avatar-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.userAccount-follow-btn-following:hover {
+  color: red;
+  border-color: red;
+  background-color: rgba(255, 0, 0, 0.1);
+}
 
 .userProfile__bio {
   display: flex;

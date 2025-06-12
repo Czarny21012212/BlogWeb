@@ -21,13 +21,13 @@
   flex-direction: column;
   align-items: center;
   box-sizing: border-box;
-  gap: var(--spacing-lg);
+  gap: 5px;
 
 }
 
 .myProfile__header {
   display: flex;
-  gap: var(--spacing-md);
+
   justify-content: flex-start;
   align-items: center;
   text-align: center;
@@ -38,12 +38,12 @@
   align-items: center;
   justify-content: center;
   background-color: rgb(44, 44, 44);
-  border-radius: 20px;
+  border-radius: 100px;
   align-items: center;
-  width: 40px;
-  height: 40px;
-  margin-top: 30px;
-  margin-left: 160px;
+  width: 60px;
+  height: 60px;
+  margin-top: 20px;
+  margin-left: 230px;
   cursor: pointer;
 }
 .myProfile__settings:hover{
@@ -63,11 +63,13 @@
 }
 
 .myProfile__username {
-  font-size: 2rem;
+  font-size: 1.5rem;
   font-weight: 700;
   margin: var(--spacing-sm) 0 0;
   color: var(--text-secondary);
   letter-spacing: -0.01em;
+  margin-left: -5px;
+  margin-top: 0px;
 
 }
 .home-button{

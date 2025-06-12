@@ -23,5 +23,11 @@ body{
 .user-email{
     font-size: 0.9rem;
     color: #8899a6;
-    margin-top: -25px;
+    margin-top: -35px;
+    margin-left: 0px;
+}
+.user-name{
+    margin-top: 10px;
+    margin-left: -20px;
+    color: rgb(255, 255, 255);
 }

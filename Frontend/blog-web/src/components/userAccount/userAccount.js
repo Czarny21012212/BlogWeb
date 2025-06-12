@@ -8,6 +8,17 @@ import UserPanel from '../UserPanel/userPanel';
 import CreatePosts from '../createPosts/createPosts';
 import LogOut from '../logout/logout';
 
+
+const UserAvatar = ({ username }) => {
+  const firstLetter = username ? username.charAt(0).toUpperCase() : '?';
+  
+  return (
+    <div className="user-avatar">
+      {firstLetter}
+    </div>
+  );
+};
+
 const UserAccount = () => {
   const { id } = useParams();
 
@@ -15,6 +26,7 @@ const UserAccount = () => {
   const [userData, setUserData] = useState([]);
   const [likes, setLikes] = useState(0);
   const [followedUsers, setFollowedUsers] = useState([]);
+  const [hoveringFollow, setHoveringFollow] = useState(false);
 
   const userInfo = userData.length > 0 ? userData[0] : {};
   const totalFollowers = userInfo.countOfFollowers || 0;
@@ -103,40 +115,40 @@ const UserAccount = () => {
   };
 
   const toggleFollowUser = () => {
-  const isFollowed = isUserFollowed(userInfo.email);
+    const isFollowed = isUserFollowed(userInfo.email);
 
-  const endpoint = isFollowed
-    ? `http://localhost:8082/api/unFollow/${id}`
-    : 'http://localhost:8082/api/followUser';
+    const endpoint = isFollowed
+      ? `http://localhost:8082/api/unFollow/${id}`
+      : 'http://localhost:8082/api/followUser';
 
-  const options = isFollowed
-    ? { method: 'GET', credentials: 'include' }
-    : {
-        method: 'POST',
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email: userInfo.email }),
-      };
+    const options = isFollowed
+      ? { method: 'GET', credentials: 'include' }
+      : {
+          method: 'POST',
+          credentials: 'include',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ email: userInfo.email }),
+        };
 
-  fetch(endpoint, options)
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error('Failed to toggle follow');
-      }
-      return response.json();
-    })
-    .then(() => {
-      setFollowedUsers((prev) =>
-        isFollowed
-          ? prev.filter((user) => user.email !== userInfo.email)
-          : [...prev, { email: userInfo.email }]
-      );
-    })
-    .catch((error) => {
-      console.error('Error toggling follow:', error);
-    });
+    fetch(endpoint, options)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Failed to toggle follow');
+        }
+        return response.json();
+      })
+      .then(() => {
+        setFollowedUsers((prev) =>
+          isFollowed
+            ? prev.filter((user) => user.email !== userInfo.email)
+            : [...prev, { email: userInfo.email }]
+        );
+      })
+      .catch((error) => {
+        console.error('Error toggling follow:', error);
+      });
   };
 
 
@@ -158,18 +170,18 @@ const UserAccount = () => {
   return (
     <>
       <div className="left-side">
-        <div className="user-panel">
-          <UserPanel />
+            <div className='header'>
+                <h2>Blog Web</h2>
+            </div>
+                <div className='user-panel'>
+                <UserPanel></UserPanel>
+            </div>
+            <div className='left-menu'>
+                <div className='menu-create-post'>
+                    <CreatePosts></CreatePosts>
+                </div>
+            </div>
         </div>
-        <div className="left-menu">
-          <div className="menu-create-post">
-            <CreatePosts />
-          </div>
-          <div className="menu-logout">
-            <LogOut />
-          </div>
-        </div>
-      </div>
 
       <div className="userProfile-container">
         <button
@@ -181,51 +193,57 @@ const UserAccount = () => {
         </button>
 
         <div className="userProfile">
-          <div className="userProfile__header">
-            <div className="userProfile__avatar-container">
-              <UserCircle className="userProfile__avatar" size={104} />
-            </div>
-            <div className="userProfile__user-info">
-              <h1 className="userProfile__username">
-                @{userInfo.userName || 'Loading...'}
-              </h1>
-            </div>
-            {isUserFollowed(userInfo.email) ? (
-              <button
-                className="follow-btn-following"
-                onClick={() => toggleFollowUser(userInfo.email)}
-              >
-                Following
-              </button>
-            ) : (
-              <button
-                className="follow-btn-x"
-                onClick={() => toggleFollowUser(userInfo.email)}
-              >
-                Follow
-              </button>
-            )}
-          </div>
+          <div className='userProfile__top_container'>
+                <div className='userProfile__top'>
+                <div className="userProfile__header">
+                  <div className="userProfile__avatar-container">
+                    <UserAvatar username={userInfo.userName} />
+                  </div>
+                  <div className="userProfile__user-info">
+                    <h1 className="userProfile__username">
+                      {userInfo.userName || 'Loading...'}
+                    </h1>
+                  </div>
+                  {isUserFollowed(userInfo.email) ? (
+                    <button
+                      className="userAccount-follow-btn-following"
+                      onClick={toggleFollowUser}
+                      onMouseEnter={() => setHoveringFollow(true)}
+                      onMouseLeave={() => setHoveringFollow(false)}
+                    >
+                      {hoveringFollow ? 'Unfollow' : 'Following'}
+                    </button>
+                  ) : (
+                    <button
+                      className="userAccount-follow-btn-x"
+                      onClick={toggleFollowUser}
+                    >
+                      Follow
+                    </button>
+                  )}
+                </div>
 
-          <div className="userProfile__bio">
-            <p className="userProfile__bio-text">
-              {userInfo.bio || 'This user has not set a bio yet.'}
-            </p>
-          </div>
+                <div className="userProfile__bio">
+                  <p className="userProfile__bio-text">
+                    {userInfo.bio || 'This user has not set a bio yet.'}
+                  </p>
+                </div>
 
-          <div className="userProfile__stats">
-            <div className="userProfile__stat">
-              <span className="userProfile__stat-value">{posts.length}</span>
-              <span className="userProfile__stat-label">Posts</span>
-            </div>
-            <div className="userProfile__stat">
-              <span className="userProfile__stat-value">{likes}</span>
-              <span className="userProfile__stat-label">Likes</span>
-            </div>
-            <div className="userProfile__stat">
-              <span className="userProfile__stat-value">{totalFollowers}</span>
-              <span className="userProfile__stat-label">Followers</span>
-            </div>
+                <div className="userProfile__stats">
+                  <div className="userProfile__stat">
+                    <span className="userProfile__stat-value">{posts.length}</span>
+                    <span className="userProfile__stat-label">Posts</span>
+                  </div>
+                  <div className="userProfile__stat">
+                    <span className="userProfile__stat-value">{likes}</span>
+                    <span className="userProfile__stat-label">Likes</span>
+                  </div>
+                  <div className="userProfile__stat">
+                    <span className="userProfile__stat-value">{totalFollowers}</span>
+                    <span className="userProfile__stat-label">Followers</span>
+                  </div>
+                </div>
+              </div>
           </div>
 
           <div className="userProfile__posts">

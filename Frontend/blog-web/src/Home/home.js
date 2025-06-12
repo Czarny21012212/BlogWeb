@@ -6,8 +6,6 @@ import CreatePosts from '../components/createPosts/createPosts';
 import LogOut from '../components/logout/logout'
 import ShowUsers from '../components/ShowUsers/showUsers';
 
-
-
 function Home() {
 
   const [check, setCheck] = useState(false)
@@ -40,15 +38,15 @@ function Home() {
     {check && 
       <div className="home-container">
       <div className="left-side">
+        <div className='header'>
+          <h2>Blog Web</h2>
+        </div>
         <div className='user-panel'>
           <UserPanel></UserPanel>
         </div>
         <div className='left-menu'>
           <div className='menu-create-post'>
             <CreatePosts></CreatePosts>
-          </div>
-          <div className='menu-logout'>
-            <LogOut></LogOut>
           </div>
         </div>
       </div>

@@ -75,15 +75,27 @@ body {
   background-color: var(--bg-secondary);
   height: 100vh;
   z-index: 100; 
+  text-align: center;
 }
-
+.header h2 {
+  background: linear-gradient(to right, #2563eb, #60a5fa);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-size: 1.75rem;
+  font-weight: 800;
+  margin: 24px;
+  position: relative;
+}
 .user-panel-all {
-  display: flex;
-  max-width: 300px;
-  background-color: var(--bg-secondary);
-  padding: var(--spacing-md) var(--spacing-lg);
-  border-radius: 12px;
-  box-shadow: 0 1px 10px rgba(0, 0, 0, 0.034);
+  position: absolute;
+  bottom: 0;
+  margin: 15px;
+  background-color: rgba(220, 220, 220, 0.082);
+  width: 13.5vw;
+  padding: 10px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.068);
 }
 .post-author-container{
   display: flex;
@@ -140,14 +152,14 @@ body {
   background-color: var(--bg-secondary);
   padding: var(--spacing-md) var(--spacing-lg);
   width: 100%;
-  margin: 20px;
+  margin-top: 20px;
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   position: relative;
   border: 1px solid rgba(255, 255, 255, 0.068)
 }
 
-/* Post header with name */
+
 .post-header {
   display: flex;
   justify-content: space-between;
